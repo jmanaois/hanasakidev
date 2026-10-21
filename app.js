@@ -1,14 +1,43 @@
 const dialog = document.querySelector('dialog');
 const content = document.querySelector('#dialog-content');
 let previousFocus;
-function openDialog() { previousFocus = document.activeElement; dialog.showModal(); dialog.scrollTop = 0; }
-document.querySelector('.close-dialog').addEventListener('click', () => dialog.close());
+let dialogClosing = false;
+let dialogCloseTimer;
+function openDialog() {
+  previousFocus = document.activeElement;
+  dialog.classList.remove('is-closing');
+  dialog.showModal();
+  dialog.scrollTop = 0;
+}
+function closeDialog() {
+  if (!dialog.open || dialogClosing) return;
+  if (reducedMotion.matches) { dialog.close(); return; }
+  dialogClosing = true;
+  dialog.classList.add('is-closing');
+  const finish = () => {
+    window.clearTimeout(dialogCloseTimer);
+    dialog.removeEventListener('animationend', handleAnimationEnd);
+    if (dialog.open) dialog.close();
+  };
+  const handleAnimationEnd = event => {
+    if (event.target === dialog && event.animationName === 'dialog-out') finish();
+  };
+  dialog.addEventListener('animationend', handleAnimationEnd);
+  dialogCloseTimer = window.setTimeout(finish, 250);
+}
+document.querySelector('.close-dialog').addEventListener('click', closeDialog);
 dialog.addEventListener('click', event => {
   if (event.target !== dialog) return;
   const rect = dialog.getBoundingClientRect();
-  if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close();
+  if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeDialog();
 });
-dialog.addEventListener('close', () => previousFocus?.focus());
+dialog.addEventListener('cancel', event => { event.preventDefault(); closeDialog(); });
+dialog.addEventListener('close', () => {
+  window.clearTimeout(dialogCloseTimer);
+  dialog.classList.remove('is-closing');
+  dialogClosing = false;
+  previousFocus?.focus();
+});
 function heading(text) { const element = document.createElement('h2'); element.id = 'dialog-title'; element.textContent = text.toLowerCase(); return element; }
 function paragraph(text) { const element = document.createElement('p'); element.textContent = text.toLowerCase(); return element; }
 function subheading(text) { const element = document.createElement('h3'); element.textContent = text.toLowerCase(); return element; }
@@ -237,6 +266,289 @@ const photographs = [
   ['dscf2164', 'daily driver', 'workspace', 'A cream mechanical keyboard centered in a bright personal workspace.']
 ];
 
+const photoMetadata = {
+  "dscf0195": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/2.8",
+    "shutter": "1/200 sec",
+    "iso": "400",
+    "focalLength": "23 mm"
+  },
+  "dscf0248": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/16",
+    "shutter": "1/180 sec",
+    "iso": "2500",
+    "focalLength": "23 mm"
+  },
+  "dscf0301": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/14",
+    "shutter": "1/180 sec",
+    "iso": "640",
+    "focalLength": "23 mm"
+  },
+  "dscf0434": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/2.8",
+    "shutter": "1/1000 sec",
+    "iso": "10000",
+    "focalLength": "23 mm"
+  },
+  "dscf0450": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/2.8",
+    "shutter": "1/1000 sec",
+    "iso": "125",
+    "focalLength": "23 mm"
+  },
+  "dscf0460": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/5",
+    "shutter": "1/1000 sec",
+    "iso": "250",
+    "focalLength": "23 mm"
+  },
+  "dscf0474": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/3.6",
+    "shutter": "1/1000 sec",
+    "iso": "125",
+    "focalLength": "23 mm"
+  },
+  "dscf0478": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/3.6",
+    "shutter": "1/1000 sec",
+    "iso": "125",
+    "focalLength": "23 mm"
+  },
+  "dscf0520": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/2.8",
+    "shutter": "1/1000 sec",
+    "iso": "80",
+    "focalLength": "23 mm"
+  },
+  "dscf0597": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/5.6",
+    "shutter": "1/340 sec",
+    "iso": "250",
+    "focalLength": "23 mm"
+  },
+  "dscf0599": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/5.6",
+    "shutter": "1/320 sec",
+    "iso": "250",
+    "focalLength": "23 mm"
+  },
+  "dscf0730": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/5.6",
+    "shutter": "1/210 sec",
+    "iso": "250",
+    "focalLength": "23 mm"
+  },
+  "dscf0790": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/5.6",
+    "shutter": "1/500 sec",
+    "iso": "250",
+    "focalLength": "23 mm"
+  },
+  "dscf0860": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/7.1",
+    "shutter": "1/1800 sec",
+    "iso": "800",
+    "focalLength": "23 mm"
+  },
+  "dscf0962": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/5.6",
+    "shutter": "1/500 sec",
+    "iso": "400",
+    "focalLength": "23 mm"
+  },
+  "dscf1068": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/2.8",
+    "shutter": "1/30 sec",
+    "iso": "1600",
+    "focalLength": "23 mm"
+  },
+  "dscf1400": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/2.8",
+    "shutter": "1/250 sec",
+    "iso": "500",
+    "focalLength": "23 mm"
+  },
+  "dscf1462": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/2.8",
+    "shutter": "1/250 sec",
+    "iso": "320",
+    "focalLength": "23 mm"
+  },
+  "dscf1747": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/4",
+    "shutter": "1/125 sec",
+    "iso": "320",
+    "focalLength": "23 mm"
+  },
+  "dscf1763": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "TTARTISAN 35mm F1.8 X",
+    "aperture": "f/2",
+    "shutter": "1/80 sec",
+    "iso": "200",
+    "focalLength": "35 mm"
+  },
+  "dscf1782": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "TTARTISAN 35mm F1.8 X",
+    "aperture": "f/2.2",
+    "shutter": "1/120 sec",
+    "iso": "320",
+    "focalLength": "35 mm"
+  },
+  "dscf1835": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "TTARTISAN 35mm F1.8 X",
+    "aperture": "f/2",
+    "shutter": "1/105 sec",
+    "iso": "320",
+    "focalLength": "35 mm"
+  },
+  "dscf1839": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "TTARTISAN 35mm F1.8 X",
+    "aperture": "f/5",
+    "shutter": "1/680 sec",
+    "iso": "200",
+    "focalLength": "35 mm"
+  },
+  "dscf1845": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "TTARTISAN 35mm F1.8 X",
+    "aperture": "f/1.8",
+    "shutter": "1/60 sec",
+    "iso": "200",
+    "focalLength": "35 mm"
+  },
+  "dscf1881": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/4",
+    "shutter": "1/120 sec",
+    "iso": "320",
+    "focalLength": "23 mm"
+  },
+  "dscf1903": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/3.2",
+    "shutter": "1/100 sec",
+    "iso": "400",
+    "focalLength": "23 mm"
+  },
+  "dscf1916": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/3.2",
+    "shutter": "1/75 sec",
+    "iso": "200",
+    "focalLength": "23 mm"
+  },
+  "dscf2009": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF33mmF1.4 R LM WR",
+    "aperture": "f/1.4",
+    "shutter": "1/60 sec",
+    "iso": "200",
+    "focalLength": "33 mm"
+  },
+  "dscf2114": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF33mmF1.4 R LM WR",
+    "aperture": "f/1.4",
+    "shutter": "1/60 sec",
+    "iso": "2500",
+    "focalLength": "33 mm"
+  },
+  "dscf2122": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF33mmF1.4 R LM WR",
+    "aperture": "f/1.4",
+    "shutter": "1/60 sec",
+    "iso": "3200",
+    "focalLength": "33 mm"
+  },
+  "dscf2136": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF33mmF1.4 R LM WR",
+    "aperture": "f/1.4",
+    "shutter": "1/60 sec",
+    "iso": "2500",
+    "focalLength": "33 mm"
+  },
+  "dscf2145": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF33mmF1.4 R LM WR",
+    "aperture": "f/1.4",
+    "shutter": "1/60 sec",
+    "iso": "4000",
+    "focalLength": "33 mm"
+  },
+  "dscf2147": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF33mmF1.4 R LM WR",
+    "aperture": "f/1.4",
+    "shutter": "1/60 sec",
+    "iso": "1600",
+    "focalLength": "33 mm"
+  },
+  "dscf2152": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF33mmF1.4 R LM WR",
+    "aperture": "f/1.4",
+    "shutter": "1/60 sec",
+    "iso": "3200",
+    "focalLength": "33 mm"
+  },
+  "dscf2164": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF33mmF1.4 R LM WR",
+    "aperture": "f/1.4",
+    "shutter": "1/60 sec",
+    "iso": "2500",
+    "focalLength": "33 mm"
+  }
+};
+
 const photoGrid = document.querySelector('.photo-grid');
 const photoViewport = document.createElement('div');
 photoViewport.className = 'photo-viewport';
@@ -247,6 +559,7 @@ photographs.forEach(([file, title, category, alt], index) => {
   const button = document.createElement('button');
   button.className = `photo${file === 'dscf0962' ? ' photo--portrait' : ''}`;
   button.dataset.title = title;
+  button.dataset.file = file;
   button.dataset.collection = ['workspace', 'details'].includes(category) ? 'workspace' : 'travel';
   button.dataset.caption = `${String(index + 1).padStart(2, '0')} / ${category}`;
   button.setAttribute('aria-label', `enlarge photograph: ${title}`);
@@ -405,7 +718,18 @@ document.querySelectorAll('[data-project]').forEach(button => button.addEventLis
 document.querySelectorAll('.photo').forEach(button => button.addEventListener('click', () => {
   const image = button.querySelector('img').cloneNode();
   image.removeAttribute('loading');
-  content.replaceChildren(image, heading(button.dataset.title), paragraph(button.dataset.caption));
+  const details = document.createElement('dl');
+  details.className = 'photo-metadata';
+  const metadata = photoMetadata[button.dataset.file] || {};
+  for (const [key, label] of [['camera', 'camera'], ['lens', 'lens'], ['aperture', 'aperture'], ['shutter', 'shutter speed'], ['iso', 'ISO'], ['focalLength', 'focal length']]) {
+    if (!metadata[key]) continue;
+    const term = document.createElement('dt');
+    const value = document.createElement('dd');
+    term.textContent = label;
+    value.textContent = metadata[key];
+    details.append(term, value);
+  }
+  content.replaceChildren(image, heading(button.dataset.title), paragraph(button.dataset.caption), details);
   openDialog();
 }));
 document.querySelector('#year').textContent = new Date().getFullYear();
