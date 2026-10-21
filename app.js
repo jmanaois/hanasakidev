@@ -392,8 +392,7 @@ document.querySelectorAll('[data-project]').forEach(button => button.addEventLis
   const details = projectDetails[name]
     ? projectDetails[name]()
     : [paragraph('The full story is coming soon. Project details, photographs, and links will be added here.')];
-  const coverNote = name === 'holowish' ? [paragraph('The cover is a placeholder illustration, not a screenshot of the project.')] : [];
-  content.replaceChildren(heading(name), ...details, ...coverNote, link);
+  content.replaceChildren(heading(name), ...details, link);
   openDialog();
 }));
 document.querySelectorAll('.photo').forEach(button => button.addEventListener('click', () => {
