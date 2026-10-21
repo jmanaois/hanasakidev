@@ -163,8 +163,33 @@ function holowishDetails() {
     paragraph('I had trouble finding a collection and wishlist tracker that fit the way I collect, especially for Japanese cards. Holowish grew out of wanting that tool for myself.'),
     featuresHeading,
     features,
+    holowishDemos(),
     paragraph('Built for iPhone and iPad with SwiftUI, SwiftData, and Swift Charts. A custom catalogue importer brings together official Japanese card data and available English names.')
   ];
+}
+
+function holowishDemos() {
+  const gallery = document.createElement('div');
+  gallery.className = 'project-gallery holowish-gallery';
+  [
+    ['add-to-x', 'add a card directly to your collection or wishlist.', 'Holowish app demo adding a card to a collection or wishlist.'],
+    ['card-filter', 'filter the card catalogue to find exactly what you collect.', 'Holowish app demo filtering cards in the catalogue.'],
+    ['change-outfit', 'choose the outfit artwork shown on your oshi hub.', 'Holowish app demo changing the featured talent outfit.'],
+    ['change-theme', 'switch themes to personalize your oshi hub.', 'Holowish app demo changing the Oshi Hub theme.']
+  ].forEach(([file, caption, alt]) => {
+    const figure = document.createElement('figure');
+    const image = document.createElement('img');
+    image.src = `assets/holowish/${file}.gif`;
+    image.alt = alt;
+    image.width = 360;
+    image.height = 783;
+    image.loading = 'lazy';
+    const label = document.createElement('figcaption');
+    label.textContent = caption;
+    figure.append(image, label);
+    gallery.append(figure);
+  });
+  return gallery;
 }
 
 const projectDetails = { projectjim: projectJimDetails, grembot: grembotDetails, holowish: holowishDetails };
