@@ -291,17 +291,15 @@ const collectionButtons = ['all', 'travel', 'workspace'].map(collection => {
   button.textContent = `${collection} (${count})`;
   button.addEventListener('click', () => {
     if (photoTransitioning || activeCollection === collection) return;
-    activeCollection = collection;
-    photoPage = 0;
-    showPhotoPage();
+    transitionPhotos(0, collection, 0);
   });
   collectionControls.append(button);
   return button;
 });
 photoViewport.before(collectionControls);
 
-function collectionPhotos() {
-  return photoCards.filter(card => activeCollection === 'all' || card.dataset.collection === activeCollection);
+function collectionPhotos(collection = activeCollection) {
+  return photoCards.filter(card => collection === 'all' || card.dataset.collection === collection);
 }
 
 function photosPerPage() {
@@ -329,12 +327,18 @@ function showPhotoPage() {
   photoPosition.textContent = `${firstPhoto + 1}–${lastPhoto} of ${cards.length} · ${activeCollection}`;
 }
 
-async function changePhotoPage(direction) {
+function changePhotoPage(direction) {
   if (photoTransitioning) return;
   const targetPage = photoPage + direction;
   if (targetPage < 0 || targetPage >= Math.ceil(collectionPhotos().length / photosPerPage())) return;
+  return transitionPhotos(targetPage, activeCollection, direction);
+}
+
+async function transitionPhotos(targetPage, targetCollection, direction) {
+  if (photoTransitioning) return;
   if (reducedMotion.matches) {
-    photoPage += direction;
+    activeCollection = targetCollection;
+    photoPage = targetPage;
     showPhotoPage();
     return;
   }
@@ -346,7 +350,7 @@ async function changePhotoPage(direction) {
   const animations = [];
   try {
     const first = targetPage * photosPerPage();
-    await Promise.all(collectionPhotos().slice(first, first + photosPerPage()).map(card => {
+    await Promise.all(collectionPhotos(targetCollection).slice(first, first + photosPerPage()).map(card => {
       const image = card.querySelector('img');
       image.loading = 'eager';
       return image.decode().catch(() => {});
@@ -357,6 +361,7 @@ async function changePhotoPage(direction) {
     outgoing.setAttribute('aria-hidden', 'true');
     outgoing.inert = true;
     photoGrid.parentElement.append(outgoing);
+    activeCollection = targetCollection;
     photoPage = targetPage;
     showPhotoPage();
     if (!reducedMotion.matches) {
