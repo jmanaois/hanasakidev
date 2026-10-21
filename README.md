@@ -19,6 +19,6 @@ Google Fonts require internet access. System font fallbacks are provided. Dialog
 
 ## Deploy
 
-Publish `index.html`, `styles.css`, `app.js`, `favicon.svg`, and the `assets/` directory to a static host. No build command is required. The local preview server binds only to localhost. Add future image files to the server's public allowlist and your static deployment.
+Publish `index.html`, `styles.css`, `app.js`, `favicon.svg`, and the `assets/` directory to a static host. No build command is required. The local preview server binds only to localhost and automatically serves supported image files inside `assets/`.
 
 Design references: https://www.curated.supply/, https://ishback.com/, https://personligarkitektur.no/, https://www.bjle.photography/.
