@@ -44,6 +44,10 @@ dialog h3{font-size:15px;font-weight:500;margin:28px 0 14px}.project-features{pa
 }
 
 /* photography collection */
+.photo-collections{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+.photo-collections button{border:1px solid var(--line);border-radius:20px;background:none;padding:9px 16px;font-size:12px;color:var(--muted)}
+.photo-collections button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:white}
+.photo-collections button:disabled{cursor:default}
 .photo-viewport{position:relative}
 .photo-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .photo-grid--outgoing{position:absolute;inset:0;pointer-events:none}

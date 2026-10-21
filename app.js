@@ -217,6 +217,7 @@ photographs.forEach(([file, title, category, alt], index) => {
   const button = document.createElement('button');
   button.className = `photo${file === 'dscf0962' ? ' photo--portrait' : ''}`;
   button.dataset.title = title;
+  button.dataset.collection = ['workspace', 'details'].includes(category) ? 'workspace' : 'travel';
   button.dataset.caption = `${String(index + 1).padStart(2, '0')} / ${category}`;
   button.setAttribute('aria-label', `enlarge photograph: ${title}`);
 
@@ -247,6 +248,31 @@ const mobilePhotos = window.matchMedia('(max-width: 600px)');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let photoPage = 0;
 let photoTransitioning = false;
+let activeCollection = 'all';
+const collectionControls = document.createElement('div');
+collectionControls.className = 'photo-collections';
+collectionControls.setAttribute('role', 'group');
+collectionControls.setAttribute('aria-label', 'photo collections');
+const collectionButtons = ['all', 'travel', 'workspace'].map(collection => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.dataset.collection = collection;
+  const count = photoCards.filter(card => collection === 'all' || card.dataset.collection === collection).length;
+  button.textContent = `${collection} (${count})`;
+  button.addEventListener('click', () => {
+    if (photoTransitioning || activeCollection === collection) return;
+    activeCollection = collection;
+    photoPage = 0;
+    showPhotoPage();
+  });
+  collectionControls.append(button);
+  return button;
+});
+photoViewport.before(collectionControls);
+
+function collectionPhotos() {
+  return photoCards.filter(card => activeCollection === 'all' || card.dataset.collection === activeCollection);
+}
 
 function photosPerPage() {
   if (mobilePhotos.matches) return 1;
@@ -255,22 +281,28 @@ function photosPerPage() {
 }
 
 function showPhotoPage() {
+  const cards = collectionPhotos();
   const pageSize = photosPerPage();
-  const pageCount = Math.ceil(photoCards.length / pageSize);
+  const pageCount = Math.ceil(cards.length / pageSize);
   photoPage = Math.min(photoPage, pageCount - 1);
   const firstPhoto = photoPage * pageSize;
-  const lastPhoto = Math.min(firstPhoto + pageSize, photoCards.length);
+  const lastPhoto = Math.min(firstPhoto + pageSize, cards.length);
 
-  photoCards.forEach((card, index) => { card.hidden = index < firstPhoto || index >= lastPhoto; });
+  const visibleCards = new Set(cards.slice(firstPhoto, lastPhoto));
+  photoCards.forEach(card => { card.hidden = !visibleCards.has(card); });
+  collectionButtons.forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.collection === activeCollection));
+    button.disabled = photoTransitioning;
+  });
   previousPhotos.disabled = photoTransitioning || photoPage === 0;
   nextPhotos.disabled = photoTransitioning || photoPage === pageCount - 1;
-  photoPosition.textContent = `${firstPhoto + 1}–${lastPhoto} of ${photoCards.length}`;
+  photoPosition.textContent = `${firstPhoto + 1}–${lastPhoto} of ${cards.length} · ${activeCollection}`;
 }
 
 async function changePhotoPage(direction) {
   if (photoTransitioning) return;
   const targetPage = photoPage + direction;
-  if (targetPage < 0 || targetPage >= Math.ceil(photoCards.length / photosPerPage())) return;
+  if (targetPage < 0 || targetPage >= Math.ceil(collectionPhotos().length / photosPerPage())) return;
   if (reducedMotion.matches) {
     photoPage += direction;
     showPhotoPage();
@@ -284,7 +316,7 @@ async function changePhotoPage(direction) {
   const animations = [];
   try {
     const first = targetPage * photosPerPage();
-    await Promise.all(photoCards.slice(first, first + photosPerPage()).map(card => {
+    await Promise.all(collectionPhotos().slice(first, first + photosPerPage()).map(card => {
       const image = card.querySelector('img');
       image.loading = 'eager';
       return image.decode().catch(() => {});
@@ -317,7 +349,7 @@ async function changePhotoPage(direction) {
 previousPhotos.addEventListener('click', () => changePhotoPage(-1));
 nextPhotos.addEventListener('click', () => changePhotoPage(1));
 [tabletPhotos, mobilePhotos].forEach(query => query.addEventListener('change', () => {
-  const firstVisiblePhoto = photoCards.findIndex(card => !card.hidden);
+  const firstVisiblePhoto = collectionPhotos().findIndex(card => !card.hidden);
   photoPage = Math.floor(Math.max(firstVisiblePhoto, 0) / photosPerPage());
   showPhotoPage();
 }));
