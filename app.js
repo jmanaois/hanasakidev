@@ -172,14 +172,17 @@ function holowishDemos() {
   const gallery = document.createElement('div');
   gallery.className = 'project-gallery holowish-gallery';
   [
-    ['add-to-x', 'add a card directly to your collection or wishlist.', 'Holowish app demo adding a card to a collection or wishlist.'],
-    ['card-filter', 'filter the card catalogue to find exactly what you collect.', 'Holowish app demo filtering cards in the catalogue.'],
-    ['change-outfit', 'choose the outfit artwork shown on your oshi hub.', 'Holowish app demo changing the featured talent outfit.'],
-    ['change-theme', 'switch themes to personalize your oshi hub.', 'Holowish app demo changing the Oshi Hub theme.']
+    ['add-to-x.gif', 'add a card directly to your collection or wishlist.', 'Holowish app demo adding a card to a collection or wishlist.'],
+    ['card-filter.gif', 'filter the card catalogue to find exactly what you collect.', 'Holowish app demo filtering cards in the catalogue.'],
+    ['change-outfit.gif', 'choose the outfit artwork shown on your oshi hub.', 'Holowish app demo changing the featured talent outfit.'],
+    ['change-theme.gif', 'switch themes to personalize your oshi hub.', 'Holowish app demo changing the Oshi Hub theme.'],
+    ['collection-value.webp', 'track collection value and standout cards from the home screen.', 'Holowish home screen showing collection purchase value history and the most valuable cards.'],
+    ['wishlist.webp', 'browse every card saved to your wishlist.', 'Holowish wishlist showing a grid of saved cards.'],
+    ['collection.webp', 'review owned cards and your total collection value.', 'Holowish collection showing value history and a grid of owned cards.']
   ].forEach(([file, caption, alt]) => {
     const figure = document.createElement('figure');
     const image = document.createElement('img');
-    image.src = `assets/holowish/${file}.gif`;
+    image.src = `assets/holowish/${file}`;
     image.alt = alt;
     image.width = 300;
     image.height = 652;
