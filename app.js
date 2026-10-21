@@ -32,9 +32,40 @@ function projectJimDetails() {
   return [
     paragraph('A strength-training app built in Swift for a paired iPhone and Apple Watch. It counts reps, guides routines, and tracks progress over time.'),
     paragraph('ProjectJim began as my university capstone project. I revived it when I started training in my company’s weight room. It was a chance to build something I could use in my own workouts and push my development skills further.'),
+    projectJimScreenshots(),
     featuresHeading,
     features
   ];
+}
+function projectJimScreenshots() {
+  const gallery = document.createElement('div');
+  gallery.className = 'project-gallery jim-gallery';
+  [
+    ['workout-setup', 'set the exercise, sets, reps, and weight on iphone, then send the workout to apple watch.', 'ProjectJim iPhone home screen for configuring a bicep curl workout with sets, reps, and weight.', 327, 648],
+    ['watch-ready', 'review the workout on apple watch before starting.', 'ProjectJim Apple Watch screen showing a bicep curl workout ready to start.', 173, 187],
+    ['workout-active', 'follow live reps, set progress, and heart rate during the workout.', 'ProjectJim Apple Watch screen showing a bicep curl workout in progress with rep count and heart rate.', 241, 247],
+    ['rest-timer', 'recover between sets with a clear rest timer and skip control.', 'ProjectJim Apple Watch rest timer between workout sets.', 240, 241],
+    ['workout-history', 'review completed workouts and personal records on iphone.', 'ProjectJim iPhone workout history screen showing a personal record and a completed bicep curl workout.', 347, 653]
+  ].forEach(([file, caption, alt, width, height]) => {
+    const figure = document.createElement('figure');
+    const link = document.createElement('a');
+    link.href = `assets/projectjim/${file}.png`;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.setAttribute('aria-label', `${alt} Open full-size screenshot in a new tab.`);
+    const image = document.createElement('img');
+    image.src = link.href;
+    image.alt = alt;
+    image.width = width;
+    image.height = height;
+    image.loading = 'lazy';
+    const label = document.createElement('figcaption');
+    label.textContent = caption;
+    link.append(image);
+    figure.append(link, label);
+    gallery.append(figure);
+  });
+  return gallery;
 }
 function grembotScreenshots() {
   const gallery = document.createElement('div');
@@ -134,7 +165,7 @@ document.querySelectorAll('[data-project]').forEach(button => button.addEventLis
   const details = projectDetails[name]
     ? projectDetails[name]()
     : [paragraph('The full story is coming soon. Project details, photographs, and links will be added here.')];
-  const coverNote = name === 'grembot' ? [] : [paragraph('The cover is a placeholder illustration, not a screenshot of the project.')];
+  const coverNote = name === 'holowish' ? [paragraph('The cover is a placeholder illustration, not a screenshot of the project.')] : [];
   content.replaceChildren(heading(name), ...details, ...coverNote, link);
   openDialog();
 }));
