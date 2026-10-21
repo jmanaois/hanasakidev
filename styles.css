@@ -42,3 +42,11 @@ dialog h3{font-size:15px;font-weight:500;margin:28px 0 14px}.project-features{pa
   .jim-gallery a,.jim-gallery:has(.jim-phone) a{height:250px}
   .jim-gallery .jim-phone a{height:390px}
 }
+
+/* photography collection */
+.photo-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:34px 18px}
+.photo img{height:auto;aspect-ratio:3/2;object-fit:cover;filter:none}
+.photo--portrait img{aspect-ratio:2/3}
+.photo:is(:hover,:focus-visible) img{filter:none}
+@media(max-width:900px){.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.photo-grid{grid-template-columns:1fr;gap:30px}.photo img,.photo--portrait img{aspect-ratio:auto}}

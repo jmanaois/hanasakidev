@@ -169,6 +169,70 @@ function holowishDetails() {
 
 const projectDetails = { projectjim: projectJimDetails, grembot: grembotDetails, holowish: holowishDetails };
 
+const photographs = [
+  ['dscf0195', 'double take', 'everyday', 'Two white and orange cats resting together in a patch of sunlight.'],
+  ['dscf0248', 'passing through', 'travel', 'A person walking through a bright park lined with flowering trees.'],
+  ['dscf0301', 'afternoon pause', 'travel', 'A person seated on a bench beneath spreading trees in a quiet garden.'],
+  ['dscf0434', 'the threshold', 'travel', 'A narrow wooded path leading toward a vivid red shrine gate.'],
+  ['dscf0450', 'lakeside', 'landscape', 'Visitors sitting on a bench beside a blue lake framed by mountains.'],
+  ['dscf0460', 'edge of town', 'street', 'Two people standing at a coastal intersection facing the open sea.'],
+  ['dscf0474', 'coastal route', 'street', 'A bus traveling along a seaside road with an island on the horizon.'],
+  ['dscf0478', 'next train', 'street', 'A coastal railway crossing with a green train passing beside the ocean.'],
+  ['dscf0520', 'waterline', 'landscape', 'A lone figure standing on dark rocks as waves break along the coast.'],
+  ['dscf0597', 'the overlook', 'travel', 'A person looking across green hills from a vermilion bridge.'],
+  ['dscf0599', 'crossing over', 'travel', 'Visitors crossing a curved red bridge surrounded by spring greenery.'],
+  ['dscf0730', 'uphill', 'travel', 'Stone steps climbing toward a traditional building in the hills.'],
+  ['dscf0790', 'field notes', 'landscape', 'A person standing in a golden field beneath a green mountainside.'],
+  ['dscf0860', 'low tide', 'landscape', 'Two small figures walking along a quiet gray shoreline.'],
+  ['dscf0962', 'vermilion lines', 'architecture', 'A person walking through a long corridor of vermilion shrine columns.'],
+  ['dscf1068', 'through the gates', 'travel', 'A visitor walking beneath a dense passage of red torii gates.'],
+  ['dscf1400', 'small inscription', 'details', 'A slim framed inscription resting in a beam of warm light.'],
+  ['dscf1462', 'blue type', 'workspace', 'Close view of blue and white mechanical keyboard keys.'],
+  ['dscf1747', 'soft setup', 'workspace', 'A bright desktop with flowers, keyboards, and an illustrated desk mat.'],
+  ['dscf1763', 'within reach', 'workspace', 'A keyboard, framed inscription, and small desk objects arranged in soft light.'],
+  ['dscf1782', 'side by side', 'workspace', 'Two mechanical keyboards displayed together across an illustrated desktop.'],
+  ['dscf1835', 'after dark', 'workspace', 'A compact black and white keyboard lit against a dark textured surface.'],
+  ['dscf1839', 'reflected', 'details', 'A reflective keyboard case mirroring trees and open sky.'],
+  ['dscf1845', 'companion', 'details', 'A pale mechanical keyboard paired with an illustrated character keychain.'],
+  ['dscf1881', 'red accents', 'details', 'A keyboard with red accents beside illustrated collectible cards.'],
+  ['dscf1903', 'on pink', 'workspace', 'A red and white mechanical keyboard arranged on a pink desk mat.'],
+  ['dscf1916', 'focus shift', 'details', 'A softly focused desktop scene with a small figure beyond the keyboard.'],
+  ['dscf2009', 'command center', 'workspace', 'A wide multi-monitor desk setup with keyboards and collected figures.'],
+  ['dscf2114', 'full view', 'workspace', 'An angled view across a personal computer and mechanical keyboard setup.'],
+  ['dscf2122', 'evening setup', 'workspace', 'A desk with multiple displays, headphones, and a red-accent keyboard.'],
+  ['dscf2136', 'warm contrast', 'workspace', 'A framed inscription and keyboard set against a warm illustrated desk mat.'],
+  ['dscf2145', 'blue skies', 'workspace', 'A dual-monitor setup showing bright blue skies above a decorated desk.'],
+  ['dscf2147', 'screen glow', 'workspace', 'A keyboard and collected figures beneath the glow of two monitors.'],
+  ['dscf2152', 'wide angle', 'workspace', 'A broad view of a multi-monitor desk and its carefully arranged accessories.'],
+  ['dscf2164', 'daily driver', 'workspace', 'A cream mechanical keyboard centered in a bright personal workspace.']
+];
+
+const photoGrid = document.querySelector('.photo-grid');
+photographs.forEach(([file, title, category, alt], index) => {
+  const button = document.createElement('button');
+  button.className = `photo${file === 'dscf0962' ? ' photo--portrait' : ''}`;
+  button.dataset.title = title;
+  button.dataset.caption = `${String(index + 1).padStart(2, '0')} / ${category}`;
+  button.setAttribute('aria-label', `enlarge photograph: ${title}`);
+
+  const image = document.createElement('img');
+  image.src = `assets/photography/${file}.webp`;
+  image.alt = alt;
+  image.width = file === 'dscf0962' ? 1200 : 1800;
+  image.height = file === 'dscf0962' ? 1800 : 1200;
+  image.loading = index === 0 ? 'eager' : 'lazy';
+  image.decoding = 'async';
+
+  const caption = document.createElement('span');
+  const titleText = document.createElement('span');
+  const categoryText = document.createElement('span');
+  titleText.textContent = title;
+  categoryText.textContent = button.dataset.caption;
+  caption.append(titleText, categoryText);
+  button.append(image, caption);
+  photoGrid.append(button);
+});
+
 document.querySelectorAll('[data-project]').forEach(button => button.addEventListener('click', () => {
   const name = button.dataset.project;
   const link = document.createElement('a');
@@ -185,7 +249,7 @@ document.querySelectorAll('[data-project]').forEach(button => button.addEventLis
 document.querySelectorAll('.photo').forEach(button => button.addEventListener('click', () => {
   const image = button.querySelector('img').cloneNode();
   image.removeAttribute('loading');
-  content.replaceChildren(image, heading(button.dataset.title), paragraph('Sample image from Unsplash. Personal photography coming soon.'));
+  content.replaceChildren(image, heading(button.dataset.title), paragraph(button.dataset.caption));
   openDialog();
 }));
 document.querySelector('#year').textContent = new Date().getFullYear();

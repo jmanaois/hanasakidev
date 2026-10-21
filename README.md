@@ -8,14 +8,14 @@ Open this folder, run `npm run dev` in the terminal, then visit http://localhost
 
 ## Personalize
 
-- `index.html`: edit the bio, project covers, photography, and blog section. Bio copy is provisional. The three project names and contact email are real; Holowish still uses a placeholder illustration.
+- `index.html`: edit the bio, project covers, and blog section. The three project names and contact email are real; Holowish still uses a placeholder illustration.
 - `app.js`: update project dialog content when details and links are ready.
 - `styles.css`: colors, typography, layout, and cover illustrations.
-- Replace the two Unsplash sample URLs and alt text with personal photos. Remove sample captions in both HTML and JavaScript after replacement.
+- Photography files live in `assets/photography/`; their display order, titles, categories, and alt text are defined in the `photographs` list in `app.js`.
 - Blog currently displays a coming-soon state until real entries are supplied.
 - The get in touch buttons open the visitor's email app. No backend is needed.
 
-Google Fonts and sample Unsplash images require internet access. System font fallbacks are provided. Dialogs support Escape and focus restoration; reduced-motion preferences are respected.
+Google Fonts require internet access. System font fallbacks are provided. Dialogs support Escape and focus restoration; reduced-motion preferences are respected.
 
 ## Deploy
 
