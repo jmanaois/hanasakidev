@@ -180,7 +180,7 @@ const photographs = [
   ['dscf0478', 'next train', 'street', 'A coastal railway crossing with a green train passing beside the ocean.'],
   ['dscf0520', 'waterline', 'landscape', 'A lone figure standing on dark rocks as waves break along the coast.'],
   ['dscf0597', 'the overlook', 'travel', 'A person looking across green hills from a vermilion bridge.'],
-  ['dscf0599', 'crossing over', 'travel', 'Visitors crossing a curved red bridge surrounded by spring greenery.'],
+  ['dscf0599', 'picture perfect', 'travel', 'Visitors crossing a curved red bridge surrounded by spring greenery.'],
   ['dscf0730', 'uphill', 'travel', 'Stone steps climbing toward a traditional building in the hills.'],
   ['dscf0790', 'field notes', 'landscape', 'A person standing in a golden field beneath a green mountainside.'],
   ['dscf0860', 'low tide', 'landscape', 'Two small figures walking along a quiet gray shoreline.'],
@@ -192,17 +192,17 @@ const photographs = [
   ['dscf1763', 'within reach', 'workspace', 'A keyboard, framed inscription, and small desk objects arranged in soft light.'],
   ['dscf1782', 'side by side', 'workspace', 'Two mechanical keyboards displayed together across an illustrated desktop.'],
   ['dscf1835', 'after dark', 'workspace', 'A compact black and white keyboard lit against a dark textured surface.'],
-  ['dscf1839', 'reflected', 'details', 'A reflective keyboard case mirroring trees and open sky.'],
-  ['dscf1845', 'companion', 'details', 'A pale mechanical keyboard paired with an illustrated character keychain.'],
-  ['dscf1881', 'red accents', 'details', 'A keyboard with red accents beside illustrated collectible cards.'],
-  ['dscf1903', 'on pink', 'workspace', 'A red and white mechanical keyboard arranged on a pink desk mat.'],
-  ['dscf1916', 'focus shift', 'details', 'A softly focused desktop scene with a small figure beyond the keyboard.'],
-  ['dscf2009', 'command center', 'workspace', 'A wide multi-monitor desk setup with keyboards and collected figures.'],
-  ['dscf2114', 'full view', 'workspace', 'An angled view across a personal computer and mechanical keyboard setup.'],
-  ['dscf2122', 'evening setup', 'workspace', 'A desk with multiple displays, headphones, and a red-accent keyboard.'],
-  ['dscf2136', 'warm contrast', 'workspace', 'A framed inscription and keyboard set against a warm illustrated desk mat.'],
-  ['dscf2145', 'blue skies', 'workspace', 'A dual-monitor setup showing bright blue skies above a decorated desk.'],
-  ['dscf2147', 'screen glow', 'workspace', 'A keyboard and collected figures beneath the glow of two monitors.'],
+  ['dscf1839', 'framed', 'details', 'A reflective keyboard case mirroring trees and open sky.'],
+  ['dscf1845', 'reflected', 'details', 'A pale mechanical keyboard paired with an illustrated character keychain.'],
+  ['dscf1881', 'snowfall', 'details', 'A keyboard with red accents beside illustrated collectible cards.'],
+  ['dscf1903', 'ojou', 'workspace', 'A red and white mechanical keyboard arranged on a pink desk mat.'],
+  ['dscf1916', 'ishtar', 'details', 'A softly focused desktop scene with a small figure beyond the keyboard.'],
+  ['dscf2009', 'floral drink', 'workspace', 'A wide multi-monitor desk setup with keyboards and collected figures.'],
+  ['dscf2114', 'maid cafe', 'workspace', 'An angled view across a personal computer and mechanical keyboard setup.'],
+  ['dscf2122', 'the archive', 'workspace', 'A desk with multiple displays, headphones, and a red-accent keyboard.'],
+  ['dscf2136', 'tea time', 'workspace', 'A framed inscription and keyboard set against a warm illustrated desk mat.'],
+  ['dscf2145', 'outreach', 'workspace', 'A dual-monitor setup showing bright blue skies above a decorated desk.'],
+  ['dscf2147', 'glow', 'workspace', 'A keyboard and collected figures beneath the glow of two monitors.'],
   ['dscf2152', 'wide angle', 'workspace', 'A broad view of a multi-monitor desk and its carefully arranged accessories.'],
   ['dscf2164', 'daily driver', 'workspace', 'A cream mechanical keyboard centered in a bright personal workspace.']
 ];
@@ -240,7 +240,9 @@ const nextPhotos = document.querySelector('#next-photos');
 const photoPosition = document.querySelector('#photo-position');
 const tabletPhotos = window.matchMedia('(max-width: 900px)');
 const mobilePhotos = window.matchMedia('(max-width: 600px)');
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let photoPage = 0;
+let photoTransitioning = false;
 
 function photosPerPage() {
   if (mobilePhotos.matches) return 1;
@@ -256,13 +258,36 @@ function showPhotoPage() {
   const lastPhoto = Math.min(firstPhoto + pageSize, photoCards.length);
 
   photoCards.forEach((card, index) => { card.hidden = index < firstPhoto || index >= lastPhoto; });
-  previousPhotos.disabled = photoPage === 0;
-  nextPhotos.disabled = photoPage === pageCount - 1;
+  previousPhotos.disabled = photoTransitioning || photoPage === 0;
+  nextPhotos.disabled = photoTransitioning || photoPage === pageCount - 1;
   photoPosition.textContent = `${firstPhoto + 1}–${lastPhoto} of ${photoCards.length}`;
 }
 
-previousPhotos.addEventListener('click', () => { photoPage -= 1; showPhotoPage(); });
-nextPhotos.addEventListener('click', () => { photoPage += 1; showPhotoPage(); });
+function changePhotoPage(direction) {
+  if (reducedMotion.matches) {
+    photoPage += direction;
+    showPhotoPage();
+    return;
+  }
+
+  photoTransitioning = true;
+  photoGrid.setAttribute('aria-busy', 'true');
+  photoGrid.classList.add('is-changing');
+  showPhotoPage();
+  window.setTimeout(() => {
+    photoPage += direction;
+    showPhotoPage();
+    window.requestAnimationFrame(() => {
+      photoGrid.classList.remove('is-changing');
+      photoGrid.removeAttribute('aria-busy');
+      photoTransitioning = false;
+      showPhotoPage();
+    });
+  }, 180);
+}
+
+previousPhotos.addEventListener('click', () => changePhotoPage(-1));
+nextPhotos.addEventListener('click', () => changePhotoPage(1));
 [tabletPhotos, mobilePhotos].forEach(query => query.addEventListener('change', () => {
   const firstVisiblePhoto = photoCards.findIndex(card => !card.hidden);
   photoPage = Math.floor(Math.max(firstVisiblePhoto, 0) / photosPerPage());
