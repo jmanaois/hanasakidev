@@ -271,19 +271,24 @@ function changePhotoPage(direction) {
   }
 
   photoTransitioning = true;
+  const directionName = direction > 0 ? 'next' : 'previous';
+  const leavingClass = `is-leaving-${directionName}`;
+  const enteringClass = `is-entering-${directionName}`;
   photoGrid.setAttribute('aria-busy', 'true');
-  photoGrid.classList.add('is-changing');
+  photoGrid.classList.add(leavingClass);
   showPhotoPage();
   window.setTimeout(() => {
     photoPage += direction;
     showPhotoPage();
-    window.requestAnimationFrame(() => {
-      photoGrid.classList.remove('is-changing');
+    photoGrid.classList.remove(leavingClass);
+    photoGrid.classList.add(enteringClass);
+    window.setTimeout(() => {
+      photoGrid.classList.remove(enteringClass);
       photoGrid.removeAttribute('aria-busy');
       photoTransitioning = false;
       showPhotoPage();
-    });
-  }, 180);
+    }, 260);
+  }, 160);
 }
 
 previousPhotos.addEventListener('click', () => changePhotoPage(-1));
