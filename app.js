@@ -181,8 +181,8 @@ function holowishDemos() {
     const image = document.createElement('img');
     image.src = `assets/holowish/${file}.gif`;
     image.alt = alt;
-    image.width = 360;
-    image.height = 783;
+    image.width = 300;
+    image.height = 652;
     image.loading = 'lazy';
     const label = document.createElement('figcaption');
     label.textContent = caption;
