@@ -147,15 +147,16 @@ function holowishDetails() {
   const features = document.createElement('ul');
   features.className = 'project-features';
   [
-    'Keep a collection and wishlist, track multiple copies, and record optional purchase prices in Japanese yen.',
-    'Search by Japanese or available official English names, card numbers, tags, and sets. Narrow results by rarity, type, color, bloom level, and parallel status.',
-    'Track set completion and browse owned, missing, or wishlisted cards for your favorite talent.',
-    'Follow your total recorded purchase cost over time with quantity-aware history charts, and look up current Japanese shop listings on Yuyutei from card details.',
-    'Personalize an Oshi Hub with talent themes, outfit artwork, and collection progress, with light and dark appearances.',
-    'Keep collection data on-device, browse bundled card metadata and downloaded artwork offline, and receive catalogue updates without an app release.'
-  ].forEach(text => {
+    ['Keep a collection and wishlist, track multiple copies, and record optional purchase prices in Japanese yen.', ['add-to-x.gif', 'wishlist.webp', 'collection.webp']],
+    ['Search by Japanese or available official English names, card numbers, tags, and sets. Narrow results by rarity, type, color, bloom level, and parallel status.', ['card-filter.gif']],
+    ['Track set completion and browse owned, missing, or wishlisted cards for your favorite talent.', []],
+    ['Follow your total recorded purchase cost over time with quantity-aware history charts, and look up current Japanese shop listings on Yuyutei from card details.', ['collection-value.webp']],
+    ['Personalize an Oshi Hub with talent themes, outfit artwork, and collection progress, with light and dark appearances.', ['change-outfit.gif', 'change-theme.gif']],
+    ['Keep collection data on-device, browse bundled card metadata and downloaded artwork offline, and receive catalogue updates without an app release.', []]
+  ].forEach(([text, demos]) => {
     const item = document.createElement('li');
-    item.textContent = text.toLowerCase();
+    item.append(text.toLowerCase());
+    if (demos.length) item.append(holowishDemos(demos));
     features.append(item);
   });
   return [
@@ -163,12 +164,11 @@ function holowishDetails() {
     paragraph('I had trouble finding a collection and wishlist tracker that fit the way I collect, especially for Japanese cards. Holowish grew out of wanting that tool for myself.'),
     featuresHeading,
     features,
-    holowishDemos(),
     paragraph('Built for iPhone and iPad with SwiftUI, SwiftData, and Swift Charts. A custom catalogue importer brings together official Japanese card data and available English names.')
   ];
 }
 
-function holowishDemos() {
+function holowishDemos(files) {
   const gallery = document.createElement('div');
   gallery.className = 'project-gallery holowish-gallery';
   [
@@ -179,7 +179,7 @@ function holowishDemos() {
     ['collection-value.webp', 'track collection value and standout cards from the home screen.', 'Holowish home screen showing collection purchase value history and the most valuable cards.'],
     ['wishlist.webp', 'browse every card saved to your wishlist.', 'Holowish wishlist showing a grid of saved cards.'],
     ['collection.webp', 'review owned cards and your total collection value.', 'Holowish collection showing value history and a grid of owned cards.']
-  ].forEach(([file, caption, alt]) => {
+  ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt]) => {
     const figure = document.createElement('figure');
     const image = document.createElement('img');
     image.src = `assets/holowish/${file}`;
