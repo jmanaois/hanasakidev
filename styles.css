@@ -44,9 +44,12 @@ dialog h3{font-size:15px;font-weight:500;margin:28px 0 14px}.project-features{pa
 }
 
 /* photography collection */
-.photo-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:34px 18px}
+.photo-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .photo img{height:auto;aspect-ratio:3/2;object-fit:cover;filter:none}
-.photo--portrait img{aspect-ratio:2/3}
 .photo:is(:hover,:focus-visible) img{filter:none}
+.photo-controls{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;margin-top:28px;font-size:11px;color:var(--muted)}
+.photo-control{border:0;background:none;padding:8px 0;color:var(--ink)}
+.photo-control:first-child{justify-self:start}.photo-control:last-child{justify-self:end}
+.photo-control:disabled{color:var(--muted);cursor:default;opacity:.45}
 @media(max-width:900px){.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:600px){.photo-grid{grid-template-columns:1fr;gap:30px}.photo img,.photo--portrait img{aspect-ratio:auto}}
+@media(max-width:600px){.photo-grid{grid-template-columns:1fr}.photo-controls{margin-top:20px}}

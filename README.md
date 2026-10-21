@@ -11,7 +11,7 @@ Open this folder, run `npm run dev` in the terminal, then visit http://localhost
 - `index.html`: edit the bio, project covers, and blog section. The three project names and contact email are real; Holowish still uses a placeholder illustration.
 - `app.js`: update project dialog content when details and links are ready.
 - `styles.css`: colors, typography, layout, and cover illustrations.
-- Photography files live in `assets/photography/`; their display order, titles, categories, and alt text are defined in the `photographs` list in `app.js`.
+- Photography files live in `assets/photography/`; their display order, titles, categories, and alt text are defined in the `photographs` list in `app.js`. The gallery paginates as a single responsive row.
 - Blog currently displays a coming-soon state until real entries are supplied.
 - The get in touch buttons open the visitor's email app. No backend is needed.
 

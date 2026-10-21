@@ -208,6 +208,7 @@ const photographs = [
 ];
 
 const photoGrid = document.querySelector('.photo-grid');
+const photoCards = [];
 photographs.forEach(([file, title, category, alt], index) => {
   const button = document.createElement('button');
   button.className = `photo${file === 'dscf0962' ? ' photo--portrait' : ''}`;
@@ -231,7 +232,43 @@ photographs.forEach(([file, title, category, alt], index) => {
   caption.append(titleText, categoryText);
   button.append(image, caption);
   photoGrid.append(button);
+  photoCards.push(button);
 });
+
+const previousPhotos = document.querySelector('#previous-photos');
+const nextPhotos = document.querySelector('#next-photos');
+const photoPosition = document.querySelector('#photo-position');
+const tabletPhotos = window.matchMedia('(max-width: 900px)');
+const mobilePhotos = window.matchMedia('(max-width: 600px)');
+let photoPage = 0;
+
+function photosPerPage() {
+  if (mobilePhotos.matches) return 1;
+  if (tabletPhotos.matches) return 2;
+  return 3;
+}
+
+function showPhotoPage() {
+  const pageSize = photosPerPage();
+  const pageCount = Math.ceil(photoCards.length / pageSize);
+  photoPage = Math.min(photoPage, pageCount - 1);
+  const firstPhoto = photoPage * pageSize;
+  const lastPhoto = Math.min(firstPhoto + pageSize, photoCards.length);
+
+  photoCards.forEach((card, index) => { card.hidden = index < firstPhoto || index >= lastPhoto; });
+  previousPhotos.disabled = photoPage === 0;
+  nextPhotos.disabled = photoPage === pageCount - 1;
+  photoPosition.textContent = `${firstPhoto + 1}–${lastPhoto} of ${photoCards.length}`;
+}
+
+previousPhotos.addEventListener('click', () => { photoPage -= 1; showPhotoPage(); });
+nextPhotos.addEventListener('click', () => { photoPage += 1; showPhotoPage(); });
+[tabletPhotos, mobilePhotos].forEach(query => query.addEventListener('change', () => {
+  const firstVisiblePhoto = photoCards.findIndex(card => !card.hidden);
+  photoPage = Math.floor(Math.max(firstVisiblePhoto, 0) / photosPerPage());
+  showPhotoPage();
+}));
+showPhotoPage();
 
 document.querySelectorAll('[data-project]').forEach(button => button.addEventListener('click', () => {
   const name = button.dataset.project;
