@@ -144,18 +144,26 @@ function grembotDetails() {
 function holowishDetails() {
   const featuresHeading = document.createElement('h3');
   featuresHeading.textContent = 'made for collectors';
-  const features = document.createElement('ul');
-  features.className = 'project-features';
+  const features = document.createElement('ol');
+  features.className = 'holowish-features';
   [
-    ['Keep a collection and wishlist, track multiple copies, and record optional purchase prices in Japanese yen.', ['add-to-x.gif', 'wishlist.webp', 'collection.webp']],
-    ['Search by Japanese or available official English names, card numbers, tags, and sets. Narrow results by rarity, type, color, bloom level, and parallel status.', ['card-filter.gif']],
-    ['Track set completion and browse owned, missing, or wishlisted cards for your favorite talent.', []],
-    ['Follow your total recorded purchase cost over time with quantity-aware history charts, and look up current Japanese shop listings on Yuyutei from card details.', ['collection-value.webp']],
-    ['Personalize an Oshi Hub with talent themes, outfit artwork, and collection progress, with light and dark appearances.', ['change-outfit.gif', 'change-theme.gif']],
-    ['Keep collection data on-device, browse bundled card metadata and downloaded artwork offline, and receive catalogue updates without an app release.', []]
-  ].forEach(([text, demos]) => {
+    ['collection and wishlist', 'Track multiple copies and optional purchase prices in Japanese yen, whether a card is owned or still on your wishlist.', ['add-to-x.gif', 'wishlist.webp', 'collection.webp']],
+    ['fast catalogue search', 'Search by Japanese or available official English names, card numbers, tags, and sets, then narrow results by card attributes.', ['card-filter.gif']],
+    ['completion at a glance', 'Track set completion and browse owned, missing, or wishlisted cards for your favorite talent.', []],
+    ['purchase history', 'Follow quantity-aware purchase totals over time and look up current Japanese shop listings on Yuyutei from card details.', ['collection-value.webp']],
+    ['your oshi hub', 'Personalize talent themes, outfit artwork, collection progress, and light or dark appearances.', ['change-outfit.gif', 'change-theme.gif']],
+    ['offline by design', 'Keep collection data on-device, browse downloaded artwork and bundled metadata offline, and receive catalogue updates without an app release.', []]
+  ].forEach(([title, text, demos], index) => {
     const item = document.createElement('li');
-    item.append(text.toLowerCase());
+    item.className = 'holowish-feature';
+    const number = document.createElement('span');
+    number.className = 'holowish-feature-number';
+    number.textContent = String(index + 1).padStart(2, '0');
+    const titleElement = document.createElement('h4');
+    titleElement.textContent = title;
+    const copy = paragraph(text);
+    copy.className = 'holowish-feature-copy';
+    item.append(number, titleElement, copy);
     if (demos.length) item.append(holowishDemos(demos));
     features.append(item);
   });
@@ -172,13 +180,13 @@ function holowishDemos(files) {
   const gallery = document.createElement('div');
   gallery.className = 'project-gallery holowish-gallery';
   [
-    ['add-to-x.gif', 'add a card directly to your collection or wishlist.', 'Holowish app demo adding a card to a collection or wishlist.'],
-    ['card-filter.gif', 'filter the card catalogue to find exactly what you collect.', 'Holowish app demo filtering cards in the catalogue.'],
-    ['change-outfit.gif', 'choose the outfit artwork shown on your oshi hub.', 'Holowish app demo changing the featured talent outfit.'],
-    ['change-theme.gif', 'switch themes to personalize your oshi hub.', 'Holowish app demo changing the Oshi Hub theme.'],
-    ['collection-value.webp', 'track collection value and standout cards from the home screen.', 'Holowish home screen showing collection purchase value history and the most valuable cards.'],
-    ['wishlist.webp', 'browse every card saved to your wishlist.', 'Holowish wishlist showing a grid of saved cards.'],
-    ['collection.webp', 'review owned cards and your total collection value.', 'Holowish collection showing value history and a grid of owned cards.']
+    ['add-to-x.gif', 'add a card', 'Holowish app demo adding a card to a collection or wishlist.'],
+    ['card-filter.gif', 'filter cards', 'Holowish app demo filtering cards in the catalogue.'],
+    ['change-outfit.gif', 'choose an outfit', 'Holowish app demo changing the featured talent outfit.'],
+    ['change-theme.gif', 'switch themes', 'Holowish app demo changing the Oshi Hub theme.'],
+    ['collection-value.webp', 'value history', 'Holowish home screen showing collection purchase value history and the most valuable cards.'],
+    ['wishlist.webp', 'wishlist', 'Holowish wishlist showing a grid of saved cards.'],
+    ['collection.webp', 'collection', 'Holowish collection showing value history and a grid of owned cards.']
   ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt]) => {
     const figure = document.createElement('figure');
     const image = document.createElement('img');
