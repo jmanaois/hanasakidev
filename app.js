@@ -97,7 +97,33 @@ function grembotDetails() {
   ];
 }
 
-const projectDetails = { projectjim: projectJimDetails, grembot: grembotDetails };
+function holowishDetails() {
+  const featuresHeading = document.createElement('h3');
+  featuresHeading.textContent = 'made for collectors';
+  const features = document.createElement('ul');
+  features.className = 'project-features';
+  [
+    'Keep a collection and wishlist, track multiple copies, and record optional purchase prices in Japanese yen.',
+    'Search by Japanese or available official English names, card numbers, tags, and sets. Narrow results by rarity, type, color, bloom level, and parallel status.',
+    'Track set completion and browse owned, missing, or wishlisted cards for your favorite talent.',
+    'Follow your total recorded purchase cost over time with quantity-aware history charts, and look up current Japanese shop listings on Yuyutei from card details.',
+    'Personalize an Oshi Hub with talent themes, outfit artwork, and collection progress, with light and dark appearances.',
+    'Keep collection data on-device, browse bundled card metadata and downloaded artwork offline, and receive catalogue updates without an app release.'
+  ].forEach(text => {
+    const item = document.createElement('li');
+    item.textContent = text.toLowerCase();
+    features.append(item);
+  });
+  return [
+    paragraph('An iOS app built in Swift for tracking a hololive OFFICIAL CARD GAME collection and planning what to collect next, with a focus on Japanese cards.'),
+    paragraph('I had trouble finding a collection and wishlist tracker that fit the way I collect, especially for Japanese cards. Holowish grew out of wanting that tool for myself.'),
+    featuresHeading,
+    features,
+    paragraph('Built for iPhone and iPad with SwiftUI, SwiftData, and Swift Charts. A custom catalogue importer brings together official Japanese card data and available English names.')
+  ];
+}
+
+const projectDetails = { projectjim: projectJimDetails, grembot: grembotDetails, holowish: holowishDetails };
 
 document.querySelectorAll('[data-project]').forEach(button => button.addEventListener('click', () => {
   const name = button.dataset.project;
