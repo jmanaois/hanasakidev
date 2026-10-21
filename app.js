@@ -208,6 +208,10 @@ const photographs = [
 ];
 
 const photoGrid = document.querySelector('.photo-grid');
+const photoViewport = document.createElement('div');
+photoViewport.className = 'photo-viewport';
+photoGrid.before(photoViewport);
+photoViewport.append(photoGrid);
 const photoCards = [];
 photographs.forEach(([file, title, category, alt], index) => {
   const button = document.createElement('button');
@@ -263,7 +267,10 @@ function showPhotoPage() {
   photoPosition.textContent = `${firstPhoto + 1}–${lastPhoto} of ${photoCards.length}`;
 }
 
-function changePhotoPage(direction) {
+async function changePhotoPage(direction) {
+  if (photoTransitioning) return;
+  const targetPage = photoPage + direction;
+  if (targetPage < 0 || targetPage >= Math.ceil(photoCards.length / photosPerPage())) return;
   if (reducedMotion.matches) {
     photoPage += direction;
     showPhotoPage();
@@ -271,24 +278,40 @@ function changePhotoPage(direction) {
   }
 
   photoTransitioning = true;
-  const directionName = direction > 0 ? 'next' : 'previous';
-  const leavingClass = `is-leaving-${directionName}`;
-  const enteringClass = `is-entering-${directionName}`;
   photoGrid.setAttribute('aria-busy', 'true');
-  photoGrid.classList.add(leavingClass);
   showPhotoPage();
-  window.setTimeout(() => {
-    photoPage += direction;
+  let outgoing;
+  const animations = [];
+  try {
+    const first = targetPage * photosPerPage();
+    await Promise.all(photoCards.slice(first, first + photosPerPage()).map(card => {
+      const image = card.querySelector('img');
+      image.loading = 'eager';
+      return image.decode().catch(() => {});
+    }));
+    outgoing = photoGrid.cloneNode(true);
+    outgoing.classList.add('photo-grid--outgoing');
+    outgoing.removeAttribute('aria-busy');
+    outgoing.setAttribute('aria-hidden', 'true');
+    outgoing.inert = true;
+    photoGrid.parentElement.append(outgoing);
+    photoPage = targetPage;
     showPhotoPage();
-    photoGrid.classList.remove(leavingClass);
-    photoGrid.classList.add(enteringClass);
-    window.setTimeout(() => {
-      photoGrid.classList.remove(enteringClass);
-      photoGrid.removeAttribute('aria-busy');
-      photoTransitioning = false;
-      showPhotoPage();
-    }, 260);
-  }, 160);
+    if (!reducedMotion.matches) {
+      const timing = { duration: 360, easing: 'cubic-bezier(.25,.1,.25,1)', fill: 'both' };
+      animations.push(
+        outgoing.animate([{ opacity: 1, transform: 'translateX(0)' }, { opacity: 0, transform: `translateX(${-direction * 12}px)` }], timing),
+        photoGrid.animate([{ opacity: 0, transform: `translateX(${direction * 12}px)` }, { opacity: 1, transform: 'translateX(0)' }], timing)
+      );
+      await Promise.all(animations.map(animation => animation.finished));
+    }
+  } finally {
+    animations.forEach(animation => animation.cancel());
+    outgoing?.remove();
+    photoGrid.removeAttribute('aria-busy');
+    photoTransitioning = false;
+    showPhotoPage();
+  }
 }
 
 previousPhotos.addEventListener('click', () => changePhotoPage(-1));
