@@ -22,20 +22,19 @@ dialog h3{font-size:15px;font-weight:500;margin:28px 0 14px}.project-features{pa
 .project:hover .jim-cover-phone{transform:rotate(0) translateY(-4px)}
 .project:hover .jim-cover-watch{transform:rotate(1deg) translateY(-5px)}
 
-.jim-gallery{grid-template-columns:1.15fr 1fr;align-items:start}
-.jim-gallery figure:first-child{grid-column:1;grid-row:1/4}
-.jim-gallery figure:nth-child(2){grid-column:2;grid-row:1}
-.jim-gallery figure:nth-child(3){grid-column:2;grid-row:2}
-.jim-gallery figure:nth-child(4){grid-column:2;grid-row:3}
-.jim-gallery figure:nth-child(5){grid-column:1/-1}
-.jim-gallery a{display:flex;align-items:center;justify-content:center;min-height:170px;padding:14px;background:#282423;border-radius:8px}
-.jim-gallery figure:first-child a,.jim-gallery figure:nth-child(5) a{background:#2a2927}
-.jim-gallery img{max-height:360px;width:auto;max-width:100%;border-radius:0}
-.jim-gallery figure:nth-child(n+2):nth-child(-n+4) img{max-height:190px}
+.jim-feature-section{padding:28px 0 0;margin-top:28px}
+.jim-feature-section h3{margin:0 0 14px}
+.jim-gallery{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;margin:22px 0 28px}
+.jim-gallery figure:first-child{grid-column:auto}
+.jim-gallery figure:only-child{grid-column:1/-1}
+.jim-gallery a{display:flex;align-items:center;justify-content:center;height:250px;padding:18px;background:#282423;border-radius:8px}
+.jim-gallery:has(.jim-phone) a{height:390px}
+.jim-gallery .jim-phone a{background:#2a2927}
+.jim-gallery img{height:auto;max-height:100%;width:auto;max-width:100%;border-radius:0}
+.jim-gallery .jim-watch img{max-height:210px}
 
 @media(max-width:600px){
   .jim-gallery{grid-template-columns:1fr}
-  .jim-gallery figure:first-child,.jim-gallery figure:nth-child(2),.jim-gallery figure:nth-child(3),.jim-gallery figure:nth-child(4),.jim-gallery figure:nth-child(5){grid-column:1;grid-row:auto}
-  .jim-gallery a{min-height:0}
-  .jim-gallery img{max-height:440px}
+  .jim-gallery a,.jim-gallery:has(.jim-phone) a{height:250px}
+  .jim-gallery .jim-phone a{height:390px}
 }

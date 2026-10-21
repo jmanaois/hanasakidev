@@ -13,31 +13,43 @@ function heading(text) { const element = document.createElement('h2'); element.i
 function paragraph(text) { const element = document.createElement('p'); element.textContent = text.toLowerCase(); return element; }
 
 function projectJimDetails() {
-  const featuresHeading = document.createElement('h3');
-  featuresHeading.textContent = 'built for strength training';
-  const features = document.createElement('ul');
-  features.className = 'project-features';
-  [
-    'Automatic rep counting for curls, rows, and shoulder presses using Core Motion sampling and an arm-state machine, with more exercises planned.',
-    'Manual rep corrections and explicit set completion, with audio and haptic feedback when a workout is complete.',
-    'Multi-exercise routines with watch-side advancement and one-tap repeat of the latest workout.',
-    'HealthKit workout sessions and a live heart-rate display on Apple Watch.',
-    'Locally saved workout history and personal records for each exercise.',
-    'A post-workout check-in with conservative recommendations for increasing weight.'
-  ].forEach(text => {
-    const item = document.createElement('li');
-    item.textContent = text.toLowerCase();
-    features.append(item);
+  const sections = [
+    ['plan on iphone, start on watch', [
+      'Choose an exercise and set your sets, reps, and weight on iPhone, then send the workout to Apple Watch.',
+      'Build multi-exercise routines with watch-side advancement, or repeat your latest workout with one tap.'
+    ], ['workout-setup', 'watch-ready']],
+    ['stay with the set', [
+      'Automatic rep counting for curls, rows, and shoulder presses using Core Motion sampling and an arm-state machine, with more exercises planned.',
+      'HealthKit workout sessions and a live heart-rate display on Apple Watch.',
+      'Manual rep corrections and explicit set completion, with audio and haptic feedback when a workout is complete.',
+      'A rest timer between sets, with the option to skip ahead when you are ready.'
+    ], ['workout-active', 'rest-timer']],
+    ['see your progress', [
+      'Locally saved workout history and personal records for each exercise.',
+      'A post-workout check-in with conservative recommendations for increasing weight.'
+    ], ['workout-history']]
+  ].map(([title, items, screenshots]) => {
+    const section = document.createElement('section');
+    section.className = 'jim-feature-section';
+    const titleElement = document.createElement('h3');
+    titleElement.textContent = title;
+    const features = document.createElement('ul');
+    features.className = 'project-features';
+    items.forEach(text => {
+      const item = document.createElement('li');
+      item.textContent = text.toLowerCase();
+      features.append(item);
+    });
+    section.append(titleElement, features, projectJimScreenshots(screenshots));
+    return section;
   });
   return [
     paragraph('A strength-training app built in Swift for a paired iPhone and Apple Watch. It counts reps, guides routines, and tracks progress over time.'),
     paragraph('ProjectJim began as my university capstone project. I revived it when I started training in my company’s weight room. It was a chance to build something I could use in my own workouts and push my development skills further.'),
-    projectJimScreenshots(),
-    featuresHeading,
-    features
+    ...sections
   ];
 }
-function projectJimScreenshots() {
+function projectJimScreenshots(files) {
   const gallery = document.createElement('div');
   gallery.className = 'project-gallery jim-gallery';
   [
@@ -46,8 +58,9 @@ function projectJimScreenshots() {
     ['workout-active', 'follow live reps, set progress, and heart rate during the workout.', 'ProjectJim Apple Watch screen showing a bicep curl workout in progress with rep count and heart rate.', 241, 247],
     ['rest-timer', 'recover between sets with a clear rest timer and skip control.', 'ProjectJim Apple Watch rest timer between workout sets.', 240, 241],
     ['workout-history', 'review completed workouts and personal records on iphone.', 'ProjectJim iPhone workout history screen showing a personal record and a completed bicep curl workout.', 347, 653]
-  ].forEach(([file, caption, alt, width, height]) => {
+  ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt, width, height]) => {
     const figure = document.createElement('figure');
+    figure.className = file.startsWith('workout-') && file !== 'workout-active' ? 'jim-phone' : 'jim-watch';
     const link = document.createElement('a');
     link.href = `assets/projectjim/${file}.png`;
     link.target = '_blank';
