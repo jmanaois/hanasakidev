@@ -379,5 +379,6 @@ header > .wordmark, header > .project-back { margin-right: auto; }
 .project:hover .holo-type { color: #565f7e; }
 /* Drop the letterbox behind holowish demos; images keep their slot height and center in the same grid cell. */
 .holowish-gallery img { width: auto; max-width: 100%; background: transparent; }
-@media (min-width: 601px) { .holowish-gallery { grid-template-columns: repeat(auto-fit, minmax(120px, 152px)); gap: 20px 24px; } }
-.holowish-gallery img { margin: 0; }
+@media (min-width: 601px) { .holowish-gallery { grid-template-columns: repeat(auto-fit, minmax(160px, 200px)); gap: 28px 24px; } .holowish-gallery img { height: 400px; } }
+.holowish-gallery img { margin: 0 auto; }
+.holowish-gallery figcaption { text-align: center; }
