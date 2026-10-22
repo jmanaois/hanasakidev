@@ -94,10 +94,13 @@ function grembotScreenshots(files) {
   [
     ['card-query', 'start with /card and enter a card number or english name, with an optional rarity.', 'Discord /card query field with guidance for a card number, English name, and optional rarity.', 593, 97],
     ['card-output', 'card details, artwork, and available english market prices in one response.', 'Grembot response showing a Nakiri Ayame card with Japanese rules, card artwork, and USD prices.', 442, 848],
-    ['card-variants', 'use dropdowns to switch between matching card numbers and rarities or art variants.', 'Grembot response for Kikirara Vivi with card and rarity selection dropdowns.', 442, 882]
+    ['card-variants', 'use dropdowns to switch between matching card numbers and rarities or art variants.', 'Grembot response for Kikirara Vivi with card and rarity selection dropdowns.', 442, 882],
+    ['random-card-query', 'use /randomcard on its own, or narrow the pull by rarity and color.', 'Discord /randomcard command with the rarity set to SEC and the color set to Blue.', 815, 108],
+    ['card-mention', 'mention a card in double brackets and grembot replies with it.', 'A Discord message asking about [[shiori ur]] and the Grembot reply showing the Shiori Novella UR card with prices.', 797, 878],
+    ['daily-card', 'the card of the day, with the same details as any other lookup.', 'Grembot card of the day for 2026-10-22 showing Koseki Bijou with Japanese rules, artwork, and USD prices.', 737, 786]
   ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt, width, height]) => {
     const figure = document.createElement('figure');
-    figure.className = file === 'card-query' ? 'grem-query' : 'grem-response';
+    figure.className = file.endsWith('query') ? 'grem-query' : 'grem-response';
     const link = document.createElement('a');
     link.href = `/assets/grembot/${file}.png`;
     link.target = '_blank';
@@ -122,7 +125,10 @@ function grembotDetails() {
   const sections = [
     ['find the right card', ['Search by card number or available official English name.', 'Add an optional rarity when you already know the printing you want.'], ['card-query']],
     ['details in one response', ['View official Japanese card artwork and information without leaving Discord.', 'Check USD market and low-listing prices for matching English printings when available.'], ['card-output']],
-    ['move between variants', ['Switch between matching card numbers, rarities, and art variants using dropdowns.'], ['card-variants']]
+    ['move between variants', ['Switch between matching card numbers, rarities, and art variants using dropdowns.'], ['card-variants']],
+    ['pull a random card', ['Use /randomcard to pull a random card, with optional rarity and color filters.', 'See the Japanese version when one exists, otherwise the English one, with the same artwork dropdown as /card.'], ['random-card-query']],
+    ['look up cards mid-conversation', ['Write a card in double brackets, like [[ayame sec]], in any message and grembot replies with it.', 'Look up to three cards in a single message.'], ['card-mention']],
+    ['card of the day', ['Use /dailycard to see the day’s card. Everyone gets the same card for a given UTC date.', 'Optionally post it automatically to a chosen channel at a set hour.', 'Before posting, grembot checks the channel’s recent messages, so a restart never posts the same day twice.'], ['daily-card']]
   ];
   const sources = paragraph('The official Japanese catalogue is the preferred source for card details. The official English catalogue resolves English names, while the ');
   const apiLink = document.createElement('a');
