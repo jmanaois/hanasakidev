@@ -97,10 +97,13 @@ function grembotScreenshots(files) {
     ['card-variants', 'use dropdowns to switch between matching card numbers and rarities or art variants.', 'Grembot response for Kikirara Vivi with card and rarity selection dropdowns.', 442, 882],
     ['random-card-query', 'use /randomcard on its own, or narrow the pull by rarity and color.', 'Discord /randomcard command with the rarity set to SEC and the color set to Blue.', 815, 108],
     ['card-mention', 'mention a card in double brackets and grembot replies with it.', 'A Discord message asking about [[shiori ur]] and the Grembot reply showing the Shiori Novella UR card with prices.', 797, 878],
-    ['daily-card', 'the card of the day, with the same details as any other lookup.', 'Grembot card of the day for 2026-10-22 showing Koseki Bijou with Japanese rules, artwork, and USD prices.', 737, 786]
+    ['daily-card', 'the card of the day, with the same details as any other lookup.', 'Grembot card of the day for 2026-10-22 showing Koseki Bijou with Japanese rules, artwork, and USD prices.', 737, 786],
+    ['open-pack-query', 'start typing to pick any japanese booster or extra booster set.', 'Discord /openpack command with a list of booster sets from Blooming Radiance (hBP01) to Summer Hologram (hEB01).', 806, 513],
+    ['open-pack', 'every card in the pack, with the best pull shown up front.', 'Grembot pack opening for Bouncer Bound (hBP08) listing eight cards by rarity, with the Gigi Murin SR shown as the best pull.', 526, 670],
+    ['collection', 'packs opened, set completion, and the rarest cards pulled.', 'Grembot collection summary showing packs opened, cards pulled, set completion, and the rarest cards.', 534, 462]
   ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt, width, height]) => {
     const figure = document.createElement('figure');
-    figure.className = file.endsWith('query') ? 'grem-query' : 'grem-response';
+    figure.className = file === 'open-pack-query' ? 'grem-menu' : file.endsWith('query') ? 'grem-query' : 'grem-response';
     const link = document.createElement('a');
     link.href = `/assets/grembot/${file}.png`;
     link.target = '_blank';
@@ -128,7 +131,9 @@ function grembotDetails() {
     ['move between variants', ['Switch between matching card numbers, rarities, and art variants using dropdowns.'], ['card-variants']],
     ['pull a random card', ['Use /randomcard to pull a random card, with optional rarity and color filters.', 'See the Japanese version when one exists, otherwise the English one, with the same artwork dropdown as /card.'], ['random-card-query']],
     ['look up cards mid-conversation', ['Write a card in double brackets, like [[ayame sec]], in any message and grembot replies with it.', 'Look up to three cards in a single message.'], ['card-mention']],
-    ['card of the day', ['Use /dailycard to see the day’s card. Everyone gets the same card for a given UTC date.', 'Optionally post it automatically to a chosen channel at a set hour.', 'Before posting, grembot checks the channel’s recent messages, so a restart never posts the same day twice.'], ['daily-card']]
+    ['card of the day', ['Use /dailycard to see the day’s card. Everyone gets the same card for a given UTC date.', 'Optionally post it automatically to a chosen channel at a set hour.', 'Before posting, grembot checks the channel’s recent messages, so a restart never posts the same day twice.'], ['daily-card']],
+    ['open booster packs', ['Use /openpack to open an 8-card booster pack and save the cards to your collection.', 'Pick a set by its English or Japanese name. Packs come from the Japanese catalogue, so every Japanese booster and extra booster is available, including sets not yet released in English.', 'Members with Manage Server can use /packcooldown to set how long people wait between packs. It is off by default.'], ['open-pack-query', 'open-pack']],
+    ['track your collection', ['Use /collection to see packs opened, unique cards, completion for each set, and the rarest cards pulled, for yourself or another member.'], ['collection']]
   ];
   const sources = paragraph('The official Japanese catalogue is the preferred source for card details. The official English catalogue resolves English names, while the ');
   const apiLink = document.createElement('a');
