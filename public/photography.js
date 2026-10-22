@@ -15,7 +15,9 @@ for (const [index, [file, title, category, alt]] of photographs.entries()) {
   button.dataset.collection = collection;
   button.setAttribute('aria-label', `enlarge photograph: ${title}`);
   const image = document.createElement('img');
-  image.src = `/assets/photography/${file}.webp`;
+  image.src = `/assets/photography/thumbs/${file}.webp`;
+  image.srcset = `/assets/photography/thumbs/${file}.webp 800w, /assets/photography/${file}.webp ${file === 'dscf0962' ? 1200 : 1800}w`;
+  image.sizes = '(max-width: 600px) 100vw, (max-width: 900px) 50vw, 440px';
   image.alt = alt;
   image.width = file === 'dscf0962' ? 1200 : 1800;
   image.height = file === 'dscf0962' ? 1800 : 1200;
@@ -29,6 +31,9 @@ for (const [index, [file, title, category, alt]] of photographs.entries()) {
     previousFocus = button;
     const fullImage = image.cloneNode();
     fullImage.removeAttribute('loading');
+    fullImage.removeAttribute('srcset');
+    fullImage.removeAttribute('sizes');
+    fullImage.src = `/assets/photography/${file}.webp`;
     const heading = document.createElement('h2');
     heading.id = 'dialog-title';
     heading.textContent = title;

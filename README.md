@@ -12,8 +12,10 @@ Open this folder, run `npm run dev` in the terminal, then visit http://localhost
 - `public/projects.js`: edit the three case studies. Each has a shareable page in `public/projects/`, rendered by `public/project-page.js`. Keep the page title and description in its HTML updated when changing project copy.
 - `public/navigation.js`: responsive menu, active section indication, and the mobile gear disclosure.
 - `public/styles.css`: colors, typography, layout, and cover illustrations.
-- Photography files live in `public/assets/photography/`; their display order, titles, categories, alt text, and camera metadata are in `public/photo-data.js`. The homepage offers a slideshow, an animated full grid, and a link to the dedicated `/photography.html` archive. Both galleries use the same data.
+- Photography files live in `public/assets/photography/`; their display order, titles, categories, alt text, and camera metadata are in `public/photo-data.js`. The homepage offers a slideshow, an animated full grid, and a link to the dedicated `/photography.html` archive. Both galleries use the same data. Grids load 800px-wide copies from `public/assets/photography/thumbs/` (same filename) and open the full file in the viewer, so add a thumbnail whenever you add a photo.
 - Blog currently displays a coming-soon state until real entries are supplied. When there are posts, give each post its own HTML page and link to it from the homepage, following the project-page pattern. Add new page paths to the local server allowlist.
+- Link previews: each page has Open Graph tags pointing to a 1200×630 image in `public/assets/share/`. Update the tags and image together when a page's title or description changes.
+- `public/404.html` is served for any missing path, locally and on Cloudflare (`not_found_handling` in `wrangler.jsonc`).
 - The get in touch buttons open the visitor's email app. No backend is needed.
 
 Google Fonts require internet access. System font fallbacks are provided. Dialogs support Escape and focus restoration; reduced-motion preferences are respected.

@@ -59,7 +59,10 @@ photographs.forEach(([file, title, category, alt], index) => {
   button.setAttribute('aria-label', `enlarge photograph: ${title}`);
 
   const image = document.createElement('img');
-  image.src = `assets/photography/${file}.webp`;
+  image.src = `assets/photography/thumbs/${file}.webp`;
+  image.srcset = `assets/photography/thumbs/${file}.webp 800w, assets/photography/${file}.webp ${file === 'dscf0962' ? 1200 : 1800}w`;
+  image.sizes = '(max-width: 600px) 100vw, (max-width: 900px) 50vw, 440px';
+  image.dataset.full = `assets/photography/${file}.webp`;
   image.alt = alt;
   image.width = file === 'dscf0962' ? 1200 : 1800;
   image.height = file === 'dscf0962' ? 1800 : 1200;
@@ -227,6 +230,9 @@ showPhotoPage();
 document.querySelectorAll('.photo').forEach(button => button.addEventListener('click', () => {
   const image = button.querySelector('img').cloneNode();
   image.removeAttribute('loading');
+  image.removeAttribute('srcset');
+  image.removeAttribute('sizes');
+  image.src = image.dataset.full;
   const details = document.createElement('dl');
   details.className = 'photo-metadata';
   const metadata = photoMetadata[button.dataset.file] || {};

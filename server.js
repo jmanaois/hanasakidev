@@ -2,7 +2,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const port = Number(process.env.PORT || 5173);
-const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'favicon.svg', 'projects.js', 'project-page.js', 'navigation.js', 'theme.js', 'photo-data.js', 'photography.js', 'photography.html', 'projects/projectjim.html', 'projects/grembot.html', 'projects/holowish.html']);
+const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'favicon.svg', 'projects.js', 'project-page.js', 'navigation.js', 'theme.js', 'photo-data.js', 'photography.js', 'photography.html', 'projects/projectjim.html', 'projects/grembot.html', 'projects/holowish.html', '404.html']);
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.gif': 'image/gif', '.jpeg': 'image/jpeg', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp' };
 const assetExtensions = new Set(['.gif', '.jpeg', '.jpg', '.png', '.svg', '.webp']);
 const publicRoot = path.resolve(__dirname, 'public');
@@ -16,9 +16,10 @@ http.createServer((req, res) => {
   if (/^projects\/(projectjim|grembot|holowish)\/?$/.test(filename)) filename = filename.replace(/\/$/, '') + '.html';
   const filepath = path.resolve(publicRoot, filename);
   const isAsset = filepath.startsWith(`${assetRoot}${path.sep}`) && assetExtensions.has(path.extname(filepath).toLowerCase());
-  if (!publicFiles.has(filename) && !isAsset) { res.writeHead(404); res.end('Not found'); return; }
+  if (!publicFiles.has(filename) && !isAsset) { res.writeHead(404, { 'Content-Type': types['.html'] }); res.end(fs.readFileSync(path.join(publicRoot, '404.html'))); return; }
   if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405, { Allow: 'GET, HEAD' }); res.end(); return; }
   fs.readFile(filepath, (error, data) => {
+    if (error?.code === 'ENOENT') { res.writeHead(404, { 'Content-Type': types['.html'] }); res.end(fs.readFileSync(path.join(publicRoot, '404.html'))); return; }
     if (error) { res.writeHead(500); res.end('Unable to read file'); return; }
     res.writeHead(200, { 'Content-Type': types[path.extname(filepath).toLowerCase()], 'Cache-Control': 'no-cache' });
     res.end(req.method === 'HEAD' ? undefined : data);
