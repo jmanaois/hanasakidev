@@ -86,7 +86,6 @@ const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let photoPage = 0;
 let photoTransitioning = false;
 let activeCollection = 'all';
-let galleryView = false;
 const collectionControls = document.createElement('div');
 collectionControls.className = 'photo-collections';
 collectionControls.setAttribute('role', 'group');
@@ -106,49 +105,12 @@ const collectionButtons = ['all', 'travel', 'workspace'].map(collection => {
 });
 photoViewport.before(collectionControls);
 
-const galleryToggle = document.createElement('button');
-galleryToggle.className = 'gallery-toggle';
-galleryToggle.type = 'button';
-galleryToggle.textContent = 'view all photographs';
-galleryToggle.setAttribute('aria-pressed', 'false');
-galleryToggle.addEventListener('click', async () => {
-  if (photoTransitioning) return;
-  photoTransitioning = true;
-  galleryToggle.disabled = true;
-  photoViewport.classList.add('is-switching');
-  photoViewport.setAttribute('aria-busy', 'true');
-  let fadeOut;
-  let fadeIn;
-  try {
-    if (!reducedMotion.matches) {
-      fadeOut = photoViewport.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, easing: 'ease-in', fill: 'forwards' });
-      await fadeOut.finished;
-    }
-    galleryView = !galleryView;
-    galleryToggle.textContent = galleryView ? 'back to slideshow' : 'view all photographs';
-    galleryToggle.setAttribute('aria-pressed', String(galleryView));
-    showPhotoPage();
-    if (!reducedMotion.matches) {
-      fadeIn = photoViewport.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, easing: 'ease-out', fill: 'forwards' });
-      fadeOut?.cancel();
-      await fadeIn.finished;
-    }
-  } finally {
-    fadeOut?.cancel();
-    fadeIn?.cancel();
-    photoViewport.classList.remove('is-switching');
-    photoViewport.removeAttribute('aria-busy');
-    photoTransitioning = false;
-    showPhotoPage();
-  }
-});
-collectionControls.append(galleryToggle);
 
 // Keep vertical scrolling native; only a deliberate horizontal drag changes photos.
 let swipeStart;
 let suppressPhotoClick = false;
 photoViewport.addEventListener('pointerdown', event => {
-  if (galleryView || !event.isPrimary || event.button !== 0) return;
+  if (!event.isPrimary || event.button !== 0) return;
   swipeStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
   suppressPhotoClick = false;
 });
@@ -187,11 +149,7 @@ function showPhotoPage() {
   const firstPhoto = photoPage * pageSize;
   const lastPhoto = Math.min(firstPhoto + pageSize, cards.length);
 
-  const visibleCards = new Set(galleryView ? cards : cards.slice(firstPhoto, lastPhoto));
-  photoGrid.classList.toggle("photo-grid--all", galleryView);
-  previousPhotos.hidden = galleryView;
-  nextPhotos.hidden = galleryView;
-  galleryToggle.disabled = photoTransitioning;
+  const visibleCards = new Set(cards.slice(firstPhoto, lastPhoto));
   photoCards.forEach(card => { card.hidden = !visibleCards.has(card); });
   collectionButtons.forEach(button => {
     button.setAttribute('aria-pressed', String(button.dataset.collection === activeCollection));
@@ -199,13 +157,13 @@ function showPhotoPage() {
   });
   previousPhotos.disabled = photoTransitioning || photoPage === 0;
   nextPhotos.disabled = photoTransitioning || photoPage === pageCount - 1;
-  photoPosition.textContent = galleryView ? `${cards.length} photographs · ${activeCollection}` : mobilePhotos.matches
+  photoPosition.textContent = mobilePhotos.matches
     ? `${firstPhoto + 1} / ${cards.length}`
     : `${firstPhoto + 1}–${lastPhoto} of ${cards.length} · ${activeCollection}`;
 }
 
 function changePhotoPage(direction) {
-  if (photoTransitioning || galleryView) return;
+  if (photoTransitioning) return;
   const targetPage = photoPage + direction;
   if (targetPage < 0 || targetPage >= Math.ceil(collectionPhotos().length / photosPerPage())) return;
   return transitionPhotos(targetPage, activeCollection, direction);
@@ -219,25 +177,6 @@ async function transitionPhotos(targetPage, targetCollection, direction) {
     showPhotoPage();
     return;
   }
-  if (galleryView) {
-    photoTransitioning = true;
-    photoGrid.setAttribute('aria-busy', 'true');
-    const easing = 'cubic-bezier(.25,.1,.25,1)';
-    try {
-      await photoGrid.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing, fill: 'forwards' }).finished;
-      activeCollection = targetCollection;
-      photoPage = targetPage;
-      showPhotoPage();
-      await photoGrid.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 320, easing }).finished;
-    } finally {
-      photoGrid.getAnimations().forEach(animation => animation.cancel());
-      photoGrid.removeAttribute('aria-busy');
-      photoTransitioning = false;
-      showPhotoPage();
-    }
-    return;
-  }
-
   photoTransitioning = true;
   photoGrid.setAttribute('aria-busy', 'true');
   showPhotoPage();

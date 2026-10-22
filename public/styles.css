@@ -229,10 +229,8 @@ nav { font-size: 14px; }
 .gear-details .about-details { margin-top: 0; }
 .blog-empty p { font-size: 14px; }
 footer { font-size: 12px; gap: 16px; }
-.photo-control, .photo-collections button, .gallery-toggle, .close-dialog, .contact-button { min-height: 44px; font-size: 14px; }
+.photo-control, .photo-collections button, .close-dialog, .contact-button { min-height: 44px; font-size: 14px; }
 .photo-collections { align-items: center; }
-.photo-collections .gallery-toggle { margin-left: auto; border-radius: 0; border-color: transparent; text-decoration: underline; text-underline-offset: 5px; color: var(--ink); }
-.photo-collections .gallery-toggle[aria-pressed="true"] { background: transparent; color: var(--accent); }
 .photo-viewport { touch-action: pan-y pinch-zoom; }
 .photo-grid--all { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 30px; }
 .photo-controls { font-size: 13px; }
@@ -295,7 +293,6 @@ dialog p { font-size: 16px; }
   .photo > span > span:last-child { font-size: 13px; }
   .photo-collections { gap: 8px; }
   .photo-collections button { padding: 8px 12px; }
-  .photo-collections .gallery-toggle { margin-left: 0; width: 100%; text-align: left; padding-left: 0; }
   .photo-grid--all { gap: 22px 12px; }
   .photo-grid--all .photo > span { display: block; }
   .photo-grid--all .photo > span > span { display: block; }
@@ -321,9 +318,7 @@ dialog #dialog-content > img { display: block; width: 100%; height: auto; max-he
   to { transform: rotate(348deg); }
 }
 .intro-bloom img { animation: bloom-turn 30s linear infinite; }
-.photo-viewport.is-switching { pointer-events: none; }
 .photo-page-link { margin: 22px 0 0; text-align: right; font-size: 14px; }
-.photo-page-link a { display: inline-flex; align-items: center; min-height: 44px; border-bottom: 1px solid var(--line); }
 
 /* The separate photo archive shares the homepage's cards and color palette. */
 .gallery-article { padding: 64px 0 80px; }
@@ -354,3 +349,22 @@ dialog #dialog-content > img { display: block; width: 100%; height: auto; max-he
   body { animation: page-in .45s cubic-bezier(.25,.1,.25,1) both; }
 }
 @keyframes page-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Theme toggle + dark palette (theme.js sets data-theme on <html>) */
+:root { --on-accent: #fff; --accent-strong: #414a67; --selection: #dce0eb; --soft: #e5e7ed; color-scheme: light; }
+:root[data-theme="dark"] { --paper: #16181d; --ink: #e4e5ea; --muted: #9a9eab; --line: #2f333d; --accent: #a7b1d6; --on-accent: #16181d; --accent-strong: #c3cbe8; --selection: #343b55; --soft: #232731; color-scheme: dark; }
+::selection { background: var(--selection); }
+.contact-button, .contact-button:hover, .photo-collections button[aria-pressed="true"] { color: var(--on-accent); }
+.contact-button:hover { background: var(--accent-strong); }
+.social-link:hover { background: var(--soft); }
+header > .wordmark, header > .project-back { margin-right: auto; }
+.theme-toggle { order: 1; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; margin-left: 18px; background: transparent; border: 1px solid var(--line); border-radius: 50%; transition: border-color .2s, color .2s; }
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.theme-toggle .icon { width: 20px; height: 20px; }
+.theme-toggle .icon-sun, :root[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: block; }
+:root[data-theme="dark"] .intro-bloom img { filter: brightness(1.7); }
+:root[data-theme="dark"] .project-art, :root[data-theme="dark"] .photo img { filter: brightness(.92); }
+@media (max-width: 760px) {
+  .theme-toggle { margin-left: 0; }
+}
