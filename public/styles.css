@@ -23,8 +23,8 @@ dialog:has(.case-study-features){width:min(920px,calc(100% - 32px))}.case-study-
 /* ProjectJim device imagery */
 .art-jim{background:#282423}
 .jim-cover-phone,.jim-cover-watch{position:absolute;display:block;object-fit:contain;transition:transform .3s}
-.jim-cover-phone{height:91%;width:auto;left:12%;bottom:-7%;transform:rotate(-2deg)}
-.jim-cover-watch{height:45%;width:auto;right:8%;top:20%;transform:rotate(4deg)}
+.jim-cover-phone{height:91%;width:auto;left:12%;bottom:4%;transform:rotate(-2deg)}
+.jim-cover-watch{height:45%;width:auto;right:8%;top:9%;transform:rotate(4deg)}
 .project:hover .jim-cover-phone{transform:rotate(0) translateY(-4px)}
 .project:hover .jim-cover-watch{transform:rotate(1deg) translateY(-5px)}
 
