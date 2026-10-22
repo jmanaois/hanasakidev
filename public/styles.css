@@ -425,3 +425,21 @@ header > .wordmark, header > .project-back { margin-right: auto; }
 .post-link-arrow { font-size: 20px; align-self: start; padding-top: 6px; transition: transform .25s; }
 .post-link:hover .post-link-arrow { transform: translate(3px, -3px); }
 @media (max-width: 600px) { .post-link { grid-template-columns: 1fr auto; gap: 16px; } .post-link img { grid-column: 1 / -1; } }
+
+/* Koto: dark phone screenshots fanned on a soft green ground; screen recordings sit beside stills. */
+.projects-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1100px) { .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .projects-grid { grid-template-columns: 1fr; } }
+.art-koto { background: #cfd9cb; }
+.koto-cover { position: absolute; display: block; height: 84%; width: auto; border-radius: 14px; box-shadow: 0 14px 28px #1f2a1c30; transition: transform .3s; }
+.koto-cover-back { left: 50%; top: 10%; transform: rotate(6deg); }
+.koto-cover-front { right: 50%; top: 6%; transform: rotate(-4deg); }
+@media (prefers-reduced-motion: no-preference) {
+  .project:is(:hover, :focus-visible) .koto-cover-back { transform: rotate(8deg) translate(4px, -4px); }
+  .project:is(:hover, :focus-visible) .koto-cover-front { transform: rotate(-2deg) translateY(-6px); }
+}
+.koto-gallery { grid-template-columns: repeat(auto-fit, minmax(160px, 200px)); gap: 28px 24px; margin: 18px 0 2px; }
+.koto-gallery figure:first-child { grid-column: auto; }
+.koto-gallery :is(img, video) { display: block; width: 100%; height: auto; border-radius: 18px; background: #000; }
+.koto-gallery figcaption { text-align: center; }
+@media (max-width: 600px) { .koto-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 10px; } .koto-gallery :is(img, video) { border-radius: 12px; } }

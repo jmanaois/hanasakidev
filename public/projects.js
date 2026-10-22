@@ -207,7 +207,89 @@ function holowishDemos(files) {
   return gallery;
 }
 
-const projectDetails = { projectjim: projectJimDetails, grembot: grembotDetails, holowish: holowishDetails };
+function kotoDetails() {
+  const sections = [
+    ['chat like you text a friend', [
+      'こと replies in casual Japanese, usually a few short sentences, and keeps the conversation going with a question.',
+      'Grammar and vocabulary stay around JLPT N4 to N3, with at most one or two new casual words per reply, shown as chips under the message.',
+      'Furigana appear over kanji automatically, and chat history is saved on device.'
+    ], ['chat-furigana']],
+    ['corrections without the nitpicking', [
+      'Each message you send is checked for grammar, naturalness, and register, with up to three fixes, most important first.',
+      'Open a fix to see what you wrote, a natural casual rewrite, and a short explanation in English.',
+      'Sounding too polite counts too: です and ます get a gentle nudge toward how friends actually talk.'
+    ], ['chat-with-correction', 'grammar-correction']],
+    ['tap any word', [
+      'Tap a word in any message to look it up in a bundled JMdict dictionary, with its reading, part of speech, and meanings.',
+      'Add it to my words, along with the sentence it came from.'
+    ], ['tap-word-lookup-and-save', 'word-lookup']],
+    ['review what you save', [
+      'My words lists every saved word and when it is next due.',
+      'Flashcard reviews are scheduled with the FSRS spaced-repetition algorithm, tuned for 95% retention.',
+      'こと works the words you are reviewing into the conversation, and using one correctly in a reply counts as a review.'
+    ], ['spaced-repetition-review', 'my-words-deck', 'review-fsrs']],
+    ['translate and break it down', [
+      'Tap Translate under any of こと’s messages for an English translation.',
+      'A phrase-by-phrase breakdown explains each piece, from conjugations to the tone a casual ending adds.'
+    ], ['translate-and-breakdown', 'translation', 'phrase-breakdown']]
+  ];
+  return [
+    paragraph('An iOS app built in Swift for practicing casual Japanese by chatting with こと, a bot that texts like a friend your age.'),
+    paragraph('Textbooks teach polite, tidy Japanese, but friends text in something much looser. こと is made for learners around JLPT N4 reaching toward N3 who want to get comfortable with the Japanese people actually speak and send.'),
+    subheading('learn by chatting'),
+    caseStudyFeatures(sections, kotoMedia),
+    paragraph('Built for iPhone with SwiftUI and SwiftData. Replies, corrections, and translations come from Claude (Haiku 5.5) as structured output. Dictionary: JMdict by EDRDG, CC BY-SA 4.0.')
+  ];
+}
+
+function kotoMedia(files) {
+  const gallery = document.createElement('div');
+  gallery.className = 'project-gallery koto-gallery';
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  [
+    ['chat-furigana', 'casual replies with furigana, new-word chips, and a translate button.', 'こと chat showing casual Japanese replies with furigana over kanji, a めっちゃ vocabulary chip, and a reviewed めっちゃ badge.'],
+    ['chat-with-correction', 'send a message, then open the fix.', 'Screen recording of sending a Japanese message to こと and opening a grammar correction.', true],
+    ['grammar-correction', 'a grammar fix, with a natural rewrite and the reason.', 'こと grammar correction suggesting 見に行った instead of 見る, with an English explanation.'],
+    ['tap-word-lookup-and-save', 'tap a word, then add it to my words.', 'Screen recording of tapping a word in a こと message, viewing its dictionary entry, and adding it to my words.', true],
+    ['word-lookup', 'the dictionary entry for 息抜き.', 'こと word lookup sheet for 息抜き (いきぬき) with its parts of speech and meanings, and an Add to my words button.'],
+    ['spaced-repetition-review', 'a review session from start to finish.', 'Screen recording of reviewing a saved word flashcard and grading it.', true],
+    ['my-words-deck', 'saved words and when each is due.', 'こと my words list with a review button showing one due card and five saved words with due times.'],
+    ['review-fsrs', 'grade each card, with the next interval shown.', 'こと review flashcard for 息抜き with Again, Hard, Good, and Easy buttons showing their next intervals.'],
+    ['translate-and-breakdown', 'translate a message and scroll the breakdown.', 'Screen recording of translating a こと message and scrolling through its phrase-by-phrase breakdown.', true],
+    ['translation', 'the english translation, then the breakdown.', 'こと translation sheet showing a Japanese message, its English translation, and the start of the breakdown.'],
+    ['phrase-breakdown', 'each phrase, explained.', 'こと breakdown of a message phrase by phrase, explaining 昨日映画見に行ったんだ, いいな〜, and 息抜き.']
+  ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt, isVideo]) => {
+    const figure = document.createElement('figure');
+    let media;
+    if (isVideo) {
+      media = document.createElement('video');
+      media.src = `/assets/koto/${file}.mp4`;
+      media.poster = `/assets/koto/${file}-poster.webp`;
+      media.muted = true;
+      media.loop = true;
+      media.playsInline = true;
+      media.preload = 'metadata';
+      // Respect reduced motion: show the first frame with controls instead of autoplaying.
+      if (reducedMotion) media.controls = true;
+      else media.autoplay = true;
+      media.setAttribute('aria-label', alt);
+    } else {
+      media = document.createElement('img');
+      media.src = `/assets/koto/${file}.webp`;
+      media.alt = alt;
+      media.loading = 'lazy';
+    }
+    media.width = 600;
+    media.height = 1304;
+    const label = document.createElement('figcaption');
+    label.textContent = caption;
+    figure.append(media, label);
+    gallery.append(figure);
+  });
+  return gallery;
+}
+
+const projectDetails = { koto: kotoDetails, projectjim: projectJimDetails, grembot: grembotDetails, holowish: holowishDetails };
 
 
 export { projectDetails };

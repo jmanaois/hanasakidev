@@ -8,8 +8,8 @@ Open this folder, run `npm run dev` in the terminal, then visit http://localhost
 
 ## Personalize
 
-- `public/index.html`: edit the bio, project covers, and blog section. The three project names and contact email are real; Holowish uses custom tile artwork.
-- `public/projects.js`: edit the three case studies. Each has a shareable page in `public/projects/`, rendered by `public/project-page.js`. Keep the page title and description in its HTML updated when changing project copy.
+- `public/index.html`: edit the bio, project covers, and blog section. The project names and contact email are real; Holowish uses custom tile artwork.
+- `public/projects.js`: edit the case studies. Each has a shareable page in `public/projects/`, rendered by `public/project-page.js`. Keep the page title and description in its HTML updated when changing project copy.
 - `public/navigation.js`: responsive menu, active section indication, and the mobile gear disclosure.
 - `public/styles.css`: colors, typography, layout, and cover illustrations.
 - Photography files live in `public/assets/photography/`; their display order, titles, categories, alt text, and camera metadata are in `public/photo-data.js`. The homepage offers a slideshow, an animated full grid, and a link to the dedicated `/photography.html` archive. Both galleries use the same data. Grids load 800px-wide copies from `public/assets/photography/thumbs/` (same filename) and open the full file in the viewer, so add a thumbnail whenever you add a photo.
