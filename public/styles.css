@@ -368,3 +368,5 @@ header > .wordmark, header > .project-back { margin-right: auto; }
 @media (max-width: 760px) {
   .theme-toggle { margin-left: 0; }
 }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .5s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
+.theme-fading, .theme-fading *, .theme-fading *::before, .theme-fading *::after { transition: background-color .5s ease, color .5s ease, border-color .5s ease, fill .5s ease !important; }

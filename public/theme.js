@@ -27,7 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
   toggle.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     try { localStorage.setItem(themeKey, next); } catch {}
-    applyTheme(next);
+    // Crossfade the whole page between themes; fall back to color transitions.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) applyTheme(next);
+    else if (document.startViewTransition) document.startViewTransition(() => applyTheme(next));
+    else {
+      document.documentElement.classList.add('theme-fading');
+      applyTheme(next);
+      setTimeout(() => document.documentElement.classList.remove('theme-fading'), 500);
+    }
   });
   document.querySelector('header').append(toggle);
   applyTheme(document.documentElement.dataset.theme);
