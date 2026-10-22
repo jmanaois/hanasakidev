@@ -2,7 +2,7 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const port = Number(process.env.PORT || 5173);
-const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'favicon.svg', 'projects.js', 'project-page.js', 'navigation.js', 'photo-data.js', 'photography.js', 'photography.html', 'projects/projectjim.html', 'projects/grembot.html', 'projects/holowish.html']);
+const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'favicon.svg', 'projects.js', 'project-page.js', 'navigation.js', 'theme.js', 'photo-data.js', 'photography.js', 'photography.html', 'projects/projectjim.html', 'projects/grembot.html', 'projects/holowish.html']);
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.gif': 'image/gif', '.jpeg': 'image/jpeg', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp' };
 const assetExtensions = new Set(['.gif', '.jpeg', '.jpg', '.png', '.svg', '.webp']);
 const publicRoot = path.resolve(__dirname, 'public');
