@@ -1,4 +1,4 @@
-import { photographs, photoMetadata } from './photo-data.js';
+import { photographs, photoMetadata, photoCollections, photoCollection } from './photo-data.js';
 
 const grid = document.querySelector('#gallery-grid');
 const filters = document.querySelector('#gallery-filters');
@@ -8,7 +8,7 @@ const content = document.querySelector('#dialog-content');
 let previousFocus;
 
 for (const [index, [file, title, category, alt]] of photographs.entries()) {
-  const collection = ['workspace', 'details'].includes(category) ? 'workspace' : 'travel';
+  const collection = photoCollection(category);
   const button = document.createElement('button');
   button.className = 'photo';
   button.type = 'button';
@@ -55,7 +55,7 @@ for (const [index, [file, title, category, alt]] of photographs.entries()) {
 let activeCollection = 'all';
 let switching = false;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-for (const collection of ['all', 'travel', 'workspace']) {
+for (const collection of photoCollections) {
   const button = document.createElement('button');
   button.type = 'button';
   button.textContent = `${collection} (${[...grid.children].filter(card => collection === 'all' || card.dataset.collection === collection).length})`;

@@ -1,4 +1,4 @@
-import { photographs, photoMetadata } from './photo-data.js';
+import { photographs, photoMetadata, photoCollections, photoCollection } from './photo-data.js';
 const dialog = document.querySelector('dialog');
 const content = document.querySelector('#dialog-content');
 let previousFocus;
@@ -54,7 +54,7 @@ photographs.forEach(([file, title, category, alt], index) => {
   button.className = `photo${file === 'dscf0962' ? ' photo--portrait' : ''}`;
   button.dataset.title = title;
   button.dataset.file = file;
-  button.dataset.collection = ['workspace', 'details'].includes(category) ? 'workspace' : 'travel';
+  button.dataset.collection = photoCollection(category);
   button.dataset.caption = `${String(index + 1).padStart(2, '0')} / ${category}`;
   button.setAttribute('aria-label', `enlarge photograph: ${title}`);
 
@@ -90,7 +90,7 @@ const collectionControls = document.createElement('div');
 collectionControls.className = 'photo-collections';
 collectionControls.setAttribute('role', 'group');
 collectionControls.setAttribute('aria-label', 'photo collections');
-const collectionButtons = ['all', 'travel', 'workspace'].map(collection => {
+const collectionButtons = photoCollections.map(collection => {
   const button = document.createElement('button');
   button.type = 'button';
   button.dataset.collection = collection;

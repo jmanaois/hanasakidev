@@ -1,5 +1,7 @@
 const photographs = [
   ['dscf0195', 'double take', 'everyday', 'Two white and orange cats resting together in a patch of sunlight.'],
+  ['cafe-counter', 'morning order', 'everyday', 'A plant-filled coffee bar with arched shelves of coffee bags and a rainbow wall.'],
+  ['sunlit-cat', 'golden hour', 'everyday', 'A fluffy white and gray cat lying on a counter beside a cardboard box in warm sunlight.'],
   ['dscf0248', 'passing through', 'travel', 'A person walking through a bright park lined with flowering trees.'],
   ['dscf0301', 'afternoon pause', 'travel', 'A person seated on a bench beneath spreading trees in a quiet garden.'],
   ['dscf0434', 'the threshold', 'travel', 'A narrow wooded path leading toward a vivid red shrine gate.'],
@@ -33,7 +35,9 @@ const photographs = [
   ['dscf2145', 'outreach', 'workspace', 'A dual-monitor setup showing bright blue skies above a decorated desk.'],
   ['dscf2147', 'glow', 'workspace', 'A keyboard and collected figures beneath the glow of two monitors.'],
   ['dscf2152', 'wide angle', 'workspace', 'A broad view of a multi-monitor desk and its carefully arranged accessories.'],
-  ['dscf2164', 'daily driver', 'workspace', 'A cream mechanical keyboard centered in a bright personal workspace.']
+  ['dscf2164', 'daily driver', 'workspace', 'A cream mechanical keyboard centered in a bright personal workspace.'],
+  ['cat-keycaps', 'the litter', 'details', 'Pastel cat-shaped keycaps lined up in a wooden tray, with more scattered on marble.'],
+  ['snow-keyboard', 'lamy', 'workspace', 'A blue and white keyboard standing upright beside an illustrated character acrylic.']
 ];
 
 const photoMetadata = {
@@ -319,4 +323,10 @@ const photoMetadata = {
   }
 };
 
-export { photographs, photoMetadata };
+const photoCollections = ['all', 'everyday', 'travel', 'workspace'];
+function photoCollection(category) {
+  if (category === 'everyday') return 'everyday';
+  return ['workspace', 'details'].includes(category) ? 'workspace' : 'travel';
+}
+
+export { photographs, photoMetadata, photoCollections, photoCollection };
