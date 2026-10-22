@@ -253,6 +253,9 @@ dialog p { font-size: 16px; }
 .project-article .case-study-points { font-size: 16px; }
 .project-article .case-study-feature h3 { font-size: 18px; }
 .project-article .case-study-feature-copy { font-size: 16px; }
+.project-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 40px; }
+.project-repo { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 14px 22px; border: 1px solid var(--line); font-size: 14px; color: var(--ink); transition: border-color .2s; }
+.project-repo:hover { border-color: var(--ink); }
 .project-pagination { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; border-top: 1px solid var(--line); margin-top: 52px; padding-top: 24px; }
 .project-pagination a { display: inline-flex; align-items: center; min-height: 44px; }
 
@@ -373,3 +376,5 @@ header > .wordmark, header > .project-back { margin-right: auto; }
 /* The holowish tile stays light in both themes, so its label keeps light-theme colors. */
 .holo-type { color: #292c35; transition: color .2s; }
 .project:hover .holo-type { color: #565f7e; }
+/* In dark mode, drop the light letterbox behind holowish demos; images keep their slot height and center in the same grid cell. */
+:root[data-theme="dark"] .holowish-gallery img { width: auto; max-width: 100%; background: transparent; }
