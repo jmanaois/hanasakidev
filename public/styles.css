@@ -313,3 +313,38 @@ dialog p { font-size: 16px; }
 }
 dialog #dialog-content > img { display: block; width: 100%; height: auto; max-height: 65vh; object-fit: contain; margin: 20px 0; }
 @media (max-width: 360px) { .contact h2 { font-size: 42px; letter-spacing: -2px; } .contact-arrow { font-size: 44px; } }
+
+/* Motion is limited to the large decorative bloom and gallery view change. */
+.intro-bottom { justify-content: flex-end; }
+@keyframes bloom-turn {
+  from { transform: rotate(-12deg); }
+  to { transform: rotate(348deg); }
+}
+.intro-bloom img { animation: bloom-turn 30s linear infinite; }
+.photo-viewport.is-switching { pointer-events: none; }
+.photo-page-link { margin: 22px 0 0; text-align: right; font-size: 14px; }
+.photo-page-link a { display: inline-flex; align-items: center; min-height: 44px; border-bottom: 1px solid var(--line); }
+
+/* The separate photo archive shares the homepage's cards and color palette. */
+.gallery-article { padding: 64px 0 80px; }
+.gallery-article h1 { font-size: clamp(48px, 6vw, 80px); letter-spacing: -3px; }
+.gallery-article h1 em { font-family: 'Instrument Serif', Georgia, serif; color: var(--accent); font-weight: 400; }
+.gallery-intro { margin: 20px 0 46px; color: var(--muted); font-size: 16px; }
+.gallery-article .photo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 18px; }
+.gallery-article .photo-grid .photo > span { display: flex; }
+.gallery-article .photo-collections { margin-bottom: 30px; }
+.gallery-count { color: var(--muted); font-size: 13px; margin-top: 30px; }
+@media (max-width: 900px) {
+  .gallery-article .photo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .gallery-article { padding-top: 38px; }
+  .gallery-article .photo-grid { gap: 24px 12px; }
+  .gallery-article .photo-grid .photo > span { display: block; }
+  .gallery-article .photo-grid .photo > span > span { display: block; }
+  .gallery-article .photo-grid .photo > span > span:last-child { margin-top: 3px; font-size: 11px; }
+  .photo-page-link { text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-bloom img { animation: none; }
+}

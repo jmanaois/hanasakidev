@@ -12,8 +12,8 @@ Open this folder, run `npm run dev` in the terminal, then visit http://localhost
 - `public/projects.js`: edit the three case studies. Each has a shareable page in `public/projects/`, rendered by `public/project-page.js`. Keep the page title and description in its HTML updated when changing project copy.
 - `public/navigation.js`: responsive menu, active section indication, and the mobile gear disclosure.
 - `public/styles.css`: colors, typography, layout, and cover illustrations.
-- Photography files live in `public/assets/photography/`; their display order, titles, categories, and alt text are defined in the `photographs` list in `public/app.js`. Visitors can browse a responsive slideshow (with horizontal swipe/drag and previous/next controls) or view the full filtered grid.
-- Blog currently displays a coming-soon state until real entries are supplied.
+- Photography files live in `public/assets/photography/`; their display order, titles, categories, alt text, and camera metadata are in `public/photo-data.js`. The homepage offers a slideshow, an animated full grid, and a link to the dedicated `/photography.html` archive. Both galleries use the same data.
+- Blog currently displays a coming-soon state until real entries are supplied. When there are posts, give each post its own HTML page and link to it from the homepage, following the project-page pattern. Add new page paths to the local server allowlist.
 - The get in touch buttons open the visitor's email app. No backend is needed.
 
 Google Fonts require internet access. System font fallbacks are provided. Dialogs support Escape and focus restoration; reduced-motion preferences are respected.
