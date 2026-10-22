@@ -167,3 +167,23 @@ footer > span:nth-child(2) { display: flex; align-items: center; gap: 9px; }
 @media (prefers-reduced-motion: reduce) {
   .contact-button::before { transition: none; }
 }
+
+/* Personal details stay secondary to the short biography. */
+.about-details {
+  display: grid;
+  gap: 16px;
+  max-width: 600px;
+  margin: 28px 0;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.about-details > div {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 18px;
+}
+.about-details dt { color: var(--muted); }
+.about-details dd { margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .about-details > div { grid-template-columns: 74px minmax(0, 1fr); gap: 12px; }
+}
