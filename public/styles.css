@@ -67,3 +67,37 @@ dialog:has(.case-study-features){width:min(920px,calc(100% - 32px))}.case-study-
 .icon{display:inline-block;width:1em;height:1em;vertical-align:-.125em;flex-shrink:0}
 .wordmark>span{display:flex;align-items:center}
 .contact-arrow .icon{display:block}
+
+/* A quiet Japanese wordmark: flower and bloom. */
+.wordmark .brand-name {
+  font: inherit;
+  color: var(--ink);
+}
+.wordmark .brand-bloom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding-left: 18px;
+  border-left: 1px solid var(--line);
+}
+.wordmark .brand-kanji {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif CJK JP", "MS Mincho", serif;
+  font-size: 29px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: .15em;
+  padding-left: .15em;
+  color: var(--accent);
+}
+.wordmark .brand-reading {
+  font-size: 8px;
+  line-height: 1;
+  letter-spacing: .15em;
+  color: var(--accent);
+}
+@media (max-width: 900px) {
+  .wordmark { gap: 12px; }
+  .wordmark .brand-bloom { padding-left: 12px; }
+  .wordmark .brand-kanji { font-size: 25px; }
+}
