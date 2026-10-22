@@ -1,15 +1,16 @@
 function paragraph(text) { const p = document.createElement('p'); p.textContent = text.toLowerCase(); return p; }
 function subheading(text) { const h = document.createElement('h2'); h.textContent = text.toLowerCase(); return h; }
 
-function caseStudyFeatures(sections, mediaFactory) {
+function caseStudyFeatures(sections, mediaFactory, start = 1) {
   const features = document.createElement('ol');
   features.className = 'case-study-features';
+  if (start !== 1) features.start = start;
   sections.forEach(([title, details, media], index) => {
     const item = document.createElement('li');
     item.className = 'case-study-feature';
     const number = document.createElement('span');
     number.className = 'case-study-feature-number';
-    number.textContent = String(index + 1).padStart(2, '0');
+    number.textContent = String(start + index).padStart(2, '0');
     const titleElement = document.createElement('h3');
     titleElement.textContent = title;
     item.append(number, titleElement);
@@ -127,13 +128,15 @@ function grembotScreenshots(files) {
 }
 
 function grembotDetails() {
-  const sections = [
+  const lookupSections = [
     ['find the right card', ['Search by card number or available official English name.', 'Add an optional rarity when you already know the printing you want.'], ['card-query']],
     ['details in one response', ['View official Japanese card artwork and information without leaving Discord.', 'Check USD market and low-listing prices for matching English printings when available.'], ['card-output']],
     ['move between variants', ['Switch between matching card numbers, rarities, and art variants using dropdowns.'], ['card-variants']],
     ['pull a random card', ['Use /randomcard to pull a random card, with optional rarity and color filters.', 'See the Japanese version when one exists, otherwise the English one, with the same artwork dropdown as /card.'], ['random-card-query']],
     ['look up cards mid-conversation', ['Write a card in double brackets, like [[ayame sec]], in any message and grembot replies with it.', 'Look up to three cards in a single message.'], ['card-mention']],
-    ['card of the day', ['Use /dailycard to see the day’s card. Everyone gets the same card for a given UTC date.', 'Optionally post it automatically to a chosen channel at a set hour.', 'Before posting, grembot checks the channel’s recent messages, so a restart never posts the same day twice.'], ['daily-card']],
+    ['card of the day', ['Use /dailycard to see the day’s card. Everyone gets the same card for a given UTC date.', 'Optionally post it automatically to a chosen channel at a set hour.', 'Before posting, grembot checks the channel’s recent messages, so a restart never posts the same day twice.'], ['daily-card']]
+  ];
+  const packSections = [
     ['open booster packs', ['Use /openpack to open an 8-card booster pack, see artwork for every card pulled, and save them to your collection.', 'Pick a set by its English or Japanese name. Packs come from the Japanese catalogue, so every Japanese booster and extra booster is available, including sets not yet released in English.', 'Members with Manage Server can use /packcooldown to set how long people wait between packs. It is off by default.'], ['open-pack-query', 'open-pack']],
     ['track your collection', ['Use /collection to see packs opened, unique cards, completion for each set, and the rarest cards pulled, for yourself or another member.'], ['collection']],
     ['flip through a binder', ['Use /binder to page through every card in a set, 20 at a time, with collected cards and copy counts marked.', 'Switch pages and toggle between all, owned, and missing cards using buttons.', 'Leave out the set to open the one with the most cards collected, or choose another member to browse theirs.'], ['binder']],
@@ -146,10 +149,12 @@ function grembotDetails() {
   apiLink.className = 'text-link';
   sources.append(apiLink, ' supplies english-only card details and images, plus market prices.');
   return [
-    paragraph('A Discord bot that brings hololive OFFICIAL CARD GAME lookups into the conversation.'),
+    paragraph('A Discord bot that brings hololive OFFICIAL CARD GAME lookups, booster packs, and collections into the conversation.'),
     paragraph('As a gamer who spends plenty of time on Discord, I wanted a bot for my own servers that could help my friends and me find useful information without leaving the chat.'),
     subheading('card lookups, right in discord'),
-    caseStudyFeatures(sections, grembotScreenshots),
+    caseStudyFeatures(lookupSections, grembotScreenshots),
+    subheading('packs and collections'),
+    caseStudyFeatures(packSections, grembotScreenshots, lookupSections.length + 1),
     sources
   ];
 }
