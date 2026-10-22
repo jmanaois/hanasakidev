@@ -99,11 +99,13 @@ function grembotScreenshots(files) {
     ['card-mention', 'mention a card in double brackets and grembot replies with it.', 'A Discord message asking about [[shiori ur]] and the Grembot reply showing the Shiori Novella UR card with prices.', 797, 878],
     ['daily-card', 'the card of the day, with the same details as any other lookup.', 'Grembot card of the day for 2026-10-22 showing Koseki Bijou with Japanese rules, artwork, and USD prices.', 737, 786],
     ['open-pack-query', 'start typing to pick any japanese booster or extra booster set.', 'Discord /openpack command with a list of booster sets from Blooming Radiance (hBP01) to Summer Hologram (hEB01).', 806, 513],
-    ['open-pack', 'every card in the pack, with the best pull shown up front.', 'Grembot pack opening for Bouncer Bound (hBP08) listing eight cards by rarity, with the Gigi Murin SR shown as the best pull.', 526, 670],
-    ['collection', 'packs opened, set completion, and the rarest cards pulled.', 'Grembot collection summary showing packs opened, cards pulled, set completion, and the rarest cards.', 534, 462]
+    ['open-pack', 'every card in the pack, with artwork for all eight and the best pull called out.', 'Grembot pack opening for Bouncer Bound (hBP08) listing eight cards by rarity with a grid of their artwork, and the Mizumiya Su SR shown as the best pull.', 605, 648],
+    ['collection', 'packs opened, set completion, and the rarest cards pulled.', 'Grembot collection summary showing packs opened, cards pulled, set completion, and the rarest cards.', 534, 462],
+    ['binder', 'flip through a set 20 cards at a time, with collected cards checked off.', 'Grembot binder for Bouncer Bound (hBP08) showing 16 of 182 cards collected, a checklist of cards, and page and filter buttons.', 573, 631],
+    ['leaderboard', 'see who leads the server.', 'Grembot leaderboard showing the most unique cards in the server, with hanasaki first at 40 unique cards.', 400, 162]
   ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt, width, height]) => {
     const figure = document.createElement('figure');
-    figure.className = file === 'open-pack-query' ? 'grem-menu' : file.endsWith('query') ? 'grem-query' : 'grem-response';
+    figure.className = ['open-pack-query', 'open-pack', 'binder'].includes(file) ? 'grem-wide' : file.endsWith('query') ? 'grem-query' : 'grem-response';
     const link = document.createElement('a');
     link.href = `/assets/grembot/${file}.png`;
     link.target = '_blank';
@@ -132,8 +134,10 @@ function grembotDetails() {
     ['pull a random card', ['Use /randomcard to pull a random card, with optional rarity and color filters.', 'See the Japanese version when one exists, otherwise the English one, with the same artwork dropdown as /card.'], ['random-card-query']],
     ['look up cards mid-conversation', ['Write a card in double brackets, like [[ayame sec]], in any message and grembot replies with it.', 'Look up to three cards in a single message.'], ['card-mention']],
     ['card of the day', ['Use /dailycard to see the day’s card. Everyone gets the same card for a given UTC date.', 'Optionally post it automatically to a chosen channel at a set hour.', 'Before posting, grembot checks the channel’s recent messages, so a restart never posts the same day twice.'], ['daily-card']],
-    ['open booster packs', ['Use /openpack to open an 8-card booster pack and save the cards to your collection.', 'Pick a set by its English or Japanese name. Packs come from the Japanese catalogue, so every Japanese booster and extra booster is available, including sets not yet released in English.', 'Members with Manage Server can use /packcooldown to set how long people wait between packs. It is off by default.'], ['open-pack-query', 'open-pack']],
-    ['track your collection', ['Use /collection to see packs opened, unique cards, completion for each set, and the rarest cards pulled, for yourself or another member.'], ['collection']]
+    ['open booster packs', ['Use /openpack to open an 8-card booster pack, see artwork for every card pulled, and save them to your collection.', 'Pick a set by its English or Japanese name. Packs come from the Japanese catalogue, so every Japanese booster and extra booster is available, including sets not yet released in English.', 'Members with Manage Server can use /packcooldown to set how long people wait between packs. It is off by default.'], ['open-pack-query', 'open-pack']],
+    ['track your collection', ['Use /collection to see packs opened, unique cards, completion for each set, and the rarest cards pulled, for yourself or another member.'], ['collection']],
+    ['flip through a binder', ['Use /binder to page through every card in a set, 20 at a time, with collected cards and copy counts marked.', 'Switch pages and toggle between all, owned, and missing cards using buttons.', 'Leave out the set to open the one with the most cards collected, or choose another member to browse theirs.'], ['binder']],
+    ['server leaderboards', ['Use /leaderboard to rank the server by unique cards, packs opened, or UR, OUR, and SEC pulls.', 'See your own rank even when you are outside the top ten.'], ['leaderboard']]
   ];
   const sources = paragraph('The official Japanese catalogue is the preferred source for card details. The official English catalogue resolves English names, while the ');
   const apiLink = document.createElement('a');
@@ -146,8 +150,7 @@ function grembotDetails() {
     paragraph('As a gamer who spends plenty of time on Discord, I wanted a bot for my own servers that could help my friends and me find useful information without leaving the chat.'),
     subheading('card lookups, right in discord'),
     caseStudyFeatures(sections, grembotScreenshots),
-    sources,
-    paragraph('Next up: more server administration tools.')
+    sources
   ];
 }
 
