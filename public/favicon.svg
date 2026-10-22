@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#f8f7f4"/><path d="M32 12v40M12 32h40M18 18l28 28M18 46l28-28" fill="none" stroke="#565f7e" stroke-width="4" stroke-linecap="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="#565f7e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <defs><path id="petal" d="M60 55C48 45 40 27 48 17C52 12 57 15 60 20C63 15 68 12 72 17C80 27 72 45 60 55Z"/></defs>
+  <use href="#petal"/><use href="#petal" transform="rotate(72 60 60)"/><use href="#petal" transform="rotate(144 60 60)"/><use href="#petal" transform="rotate(216 60 60)"/><use href="#petal" transform="rotate(288 60 60)"/>
+  <circle cx="60" cy="60" r="3" fill="#565f7e" stroke="none"/>
+</svg>
