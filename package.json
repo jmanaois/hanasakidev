@@ -1,1 +1,10 @@
-{"name":"hanasaki-portfolio","version":"1.0.0","private":true,"scripts":{"dev":"node server.js","start":"node server.js","check":"node --check public/app.js && node --check server.js"}}
+{
+  "name": "hanasaki-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "check": "node --check public/app.js && node --check public/navigation.js && node --check public/projects.js && node --check public/project-page.js && node --check server.js"
+  }
+}
