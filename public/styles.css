@@ -404,3 +404,13 @@ header > .wordmark, header > .project-back { margin-right: auto; }
 .not-found-fallen { opacity: .55; }
 .not-found-links { display: flex; flex-wrap: wrap; gap: 12px; }
 @media (max-width: 600px) { .not-found { padding: 40px 0 64px; } .not-found-bloom { width: 120px; height: 120px; } .not-found-links .contact-button { flex: 1 1 100%; } }
+
+/* Blog posts reuse the project-article layout; photos sit in figures, full width or in pairs. */
+.post-article p a { border-bottom: 1px solid var(--line); }
+.post-figure { margin: 36px 0; }
+.post-figure img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.post-figure figcaption { font-size: 12px; line-height: 1.6; color: var(--muted); margin-top: 10px; }
+.post-figure--pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.post-figure--pair img { aspect-ratio: 4 / 5; object-fit: cover; }
+.post-figure--pair figcaption { grid-column: 1 / -1; margin-top: -8px; }
+@media (max-width: 600px) { .post-figure--pair { grid-template-columns: 1fr; } .post-figure--pair figcaption { margin-top: 0; } }

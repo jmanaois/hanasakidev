@@ -14,9 +14,11 @@ http.createServer((req, res) => {
   let filename = pathname === '/' ? 'index.html' : pathname.slice(1);
   if (filename === 'photography' || filename === 'photography/') filename = 'photography.html';
   if (/^projects\/(projectjim|grembot|holowish)\/?$/.test(filename)) filename = filename.replace(/\/$/, '') + '.html';
+  if (/^blog\/[a-z0-9-]+\/?$/.test(filename)) filename = filename.replace(/\/$/, '') + '.html';
+  const isPost = /^blog\/[a-z0-9-]+\.html$/.test(filename);
   const filepath = path.resolve(publicRoot, filename);
   const isAsset = filepath.startsWith(`${assetRoot}${path.sep}`) && assetExtensions.has(path.extname(filepath).toLowerCase());
-  if (!publicFiles.has(filename) && !isAsset) { res.writeHead(404, { 'Content-Type': types['.html'] }); res.end(fs.readFileSync(path.join(publicRoot, '404.html'))); return; }
+  if (!publicFiles.has(filename) && !isAsset && !isPost) { res.writeHead(404, { 'Content-Type': types['.html'] }); res.end(fs.readFileSync(path.join(publicRoot, '404.html'))); return; }
   if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405, { Allow: 'GET, HEAD' }); res.end(); return; }
   fs.readFile(filepath, (error, data) => {
     if (error?.code === 'ENOENT') { res.writeHead(404, { 'Content-Type': types['.html'] }); res.end(fs.readFileSync(path.join(publicRoot, '404.html'))); return; }
