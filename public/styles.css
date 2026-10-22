@@ -384,14 +384,14 @@ header > .wordmark, header > .project-back { margin-right: auto; }
 @media (min-width: 601px) { .holowish-gallery { grid-template-columns: repeat(auto-fit, minmax(160px, 200px)); gap: 28px 24px; } .holowish-gallery img { height: 400px; } }
 .holowish-gallery img { margin: 0 auto; }
 .holowish-gallery figcaption { text-align: center; }
-/* Cats photo sits under the about heading; the image is offset inside a circle so nami and rengar stay centered. */
+/* Cats photo is centered in the left column on desktop (stacked under the heading on mobile); the image is offset inside a circle so nami and rengar stay centered. */
 .about { grid-template-rows: min-content 1fr; }
 .about > h2 { grid-column: 1; grid-row: 1; }
 .about > div { grid-column: 2; grid-row: 1 / span 2; }
-.about-photo { grid-column: 1; grid-row: 2; align-self: start; position: relative; width: 180px; aspect-ratio: 1; margin: 28px 0 0; border-radius: 50%; overflow: hidden; background: var(--soft); }
+.about-photo { grid-column: 1; grid-row: 1 / span 2; align-self: center; justify-self: center; position: relative; width: min(260px, 72%); aspect-ratio: 1; margin: 33px 0 0; border-radius: 50%; overflow: hidden; background: var(--soft); }
 .about-photo img { position: absolute; width: 148%; max-width: none; height: auto; left: -23.7%; top: -71.7%; }
 @media (max-width: 600px) {
   .about { grid-template-rows: none; }
   .about > h2, .about > div, .about-photo { grid-column: auto; grid-row: auto; }
-  .about-photo { width: 132px; margin: 0; }
+  .about-photo { width: 132px; margin: 0; justify-self: start; }
 }
