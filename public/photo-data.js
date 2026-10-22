@@ -320,6 +320,38 @@ const photoMetadata = {
     "shutter": "1/60 sec",
     "iso": "2500",
     "focalLength": "33 mm"
+  },
+  "cafe-counter": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/4",
+    "shutter": "1/120 sec",
+    "iso": "320",
+    "focalLength": "23 mm"
+  },
+  "sunlit-cat": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/4",
+    "shutter": "1/120 sec",
+    "iso": "320",
+    "focalLength": "23 mm"
+  },
+  "cat-keycaps": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/4",
+    "shutter": "1/120 sec",
+    "iso": "320",
+    "focalLength": "23 mm"
+  },
+  "snow-keyboard": {
+    "camera": "FUJIFILM X-T30 III",
+    "lens": "XF23mmF2.8 R WR",
+    "aperture": "f/4",
+    "shutter": "1/120 sec",
+    "iso": "320",
+    "focalLength": "23 mm"
   }
 };
 
