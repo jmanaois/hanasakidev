@@ -226,6 +226,7 @@ function kotoDetails() {
     ['review what you save', [
       'My words lists every saved word and when it is next due.',
       'Flashcard reviews are scheduled with the FSRS spaced-repetition algorithm, tuned for 95% retention.',
+      'The back of each card shows the chat sentence the word was saved from, with its translation when one is available, because words stick better with context.',
       'こと works the words you are reviewing into the conversation, and using one correctly in a reply counts as a review.'
     ], ['spaced-repetition-review', 'my-words-deck', 'review-fsrs']],
     ['translate and break it down', [
@@ -233,11 +234,20 @@ function kotoDetails() {
       'A phrase-by-phrase breakdown explains each piece, from conjugations to the tone a casual ending adds.'
     ], ['translate-and-breakdown', 'translation', 'phrase-breakdown']]
   ];
+  const nextSections = [
+    ['conversation modes', ['Chat with a close friend, an older classmate (先輩, a little more polite), a group chat, or someone using Discord- and X-style internet slang.', 'Together they cover more of the gap between textbook Japanese and real life.'], []],
+    ['correction and furigana settings', ['Choose how strict corrections are, for example always flagging です and ます.', 'Turn furigana on or off.'], []],
+    ['furigana that fades out', ['Hide readings on words you already know well from your deck, so you gradually practice reading kanji on your own.'], []],
+    ['pronunciation', ['A speaker button on messages and flashcards, using the iPhone’s built-in Japanese voice. It is free and works offline.'], []]
+  ];
   return [
     paragraph('An iOS app built in Swift for practicing casual Japanese by chatting with こと, a bot that texts like a friend your age.'),
-    paragraph('Textbooks teach polite, tidy Japanese, but friends text in something much looser. こと is made for learners around JLPT N4 reaching toward N3 who want to get comfortable with the Japanese people actually speak and send.'),
+    paragraph('I want to be conversational in Japanese without sounding like all I know is textbook Japanese. With more friends in Japan to connect with, now is a great time to lock in on learning the language.'),
+    paragraph('こと is made for learners around JLPT N4 reaching toward N3 who want to get comfortable with the Japanese people actually speak and send.'),
     subheading('learn by chatting'),
     caseStudyFeatures(sections, kotoMedia),
+    subheading('what’s next'),
+    caseStudyFeatures(nextSections, kotoMedia, sections.length + 1),
     paragraph('Built for iPhone with SwiftUI and SwiftData. Replies, corrections, and translations come from Claude (Haiku 5.5) as structured output. Dictionary: JMdict by EDRDG, CC BY-SA 4.0.')
   ];
 }
