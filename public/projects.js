@@ -144,10 +144,10 @@ function holowishDetails() {
   const sections = [
     ['collection and wishlist', 'Track multiple copies and optional purchase prices in Japanese yen, whether a card is owned or still on your wishlist.', ['add-to-x.gif', 'wishlist.webp', 'collection.webp']],
     ['fast catalogue search', 'Search by Japanese or available official English names, card numbers, tags, and sets, then narrow results by card attributes.', ['card-filter.gif']],
-    ['completion at a glance', 'Track set completion and browse owned, missing, or wishlisted cards for your favorite talent.', []],
-    ['purchase history', 'Follow quantity-aware purchase totals over time and look up current Japanese shop listings on Yuyutei from card details.', ['collection-value.webp']],
+    ['completion at a glance', 'Track set completion and browse owned, missing, or wishlisted cards for your favorite talent.', ['set-completion.webp']],
+    ['purchase history', 'Follow quantity-aware purchase totals over time and look up current Japanese shop listings on Yuyutei from card details.', ['collection-value.webp', 'yuyutei-listing.webp']],
     ['your oshi hub', 'Personalize talent themes, outfit artwork, collection progress, and light or dark appearances.', ['change-outfit.gif', 'change-theme.gif']],
-    ['offline by design', 'Keep collection data on-device, browse downloaded artwork and bundled metadata offline, and receive catalogue updates without an app release.', []]
+    ['offline by design', 'Keep collection data on-device, browse downloaded artwork and bundled metadata offline, and receive catalogue updates without an app release.', ['offline-artwork.webp']]
   ];
   return [
     paragraph('An iOS app built in Swift for tracking a hololive OFFICIAL CARD GAME collection and planning what to collect next, with a focus on Japanese cards.'),
@@ -168,7 +168,10 @@ function holowishDemos(files) {
     ['change-theme.gif', 'switch themes', 'Holowish app demo changing the Oshi Hub theme.'],
     ['collection-value.webp', 'value history', 'Holowish home screen showing collection purchase value history and the most valuable cards.', 255, 519],
     ['wishlist.webp', 'wishlist', 'Holowish wishlist showing a grid of saved cards.', 246, 500],
-    ['collection.webp', 'collection', 'Holowish collection showing value history and a grid of owned cards.', 247, 502]
+    ['collection.webp', 'collection', 'Holowish collection showing value history and a grid of owned cards.', 247, 502],
+    ['set-completion.webp', 'set completion', 'Holowish set browser showing completion progress for each booster set.'],
+    ['yuyutei-listing.webp', 'shop listings', 'Holowish card details showing a current Yuyutei shop listing and price in yen.'],
+    ['offline-artwork.webp', 'offline artwork', 'Holowish settings showing catalogue sync status and downloaded artwork for offline use.']
   ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt, width = 300, height = 652]) => {
     const figure = document.createElement('figure');
     const image = document.createElement('img');
