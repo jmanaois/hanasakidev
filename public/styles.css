@@ -62,3 +62,8 @@ dialog:has(.case-study-features){width:min(920px,calc(100% - 32px))}.case-study-
 .photo-control:disabled{color:var(--muted);cursor:default;opacity:.45}
 @media(max-width:900px){.photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.photo-grid{grid-template-columns:1fr}.photo-controls{margin-top:20px}}
+
+/* Vector icons stay consistent across platform fonts and emoji sets. */
+.icon{display:inline-block;width:1em;height:1em;vertical-align:-.125em;flex-shrink:0}
+.wordmark>span{display:flex;align-items:center}
+.contact-arrow .icon{display:block}

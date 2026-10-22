@@ -637,7 +637,9 @@ function showPhotoPage() {
   });
   previousPhotos.disabled = photoTransitioning || photoPage === 0;
   nextPhotos.disabled = photoTransitioning || photoPage === pageCount - 1;
-  photoPosition.textContent = `${firstPhoto + 1}–${lastPhoto} of ${cards.length} · ${activeCollection}`;
+  photoPosition.textContent = mobilePhotos.matches
+    ? `${firstPhoto + 1} / ${cards.length}`
+    : `${firstPhoto + 1}–${lastPhoto} of ${cards.length} · ${activeCollection}`;
 }
 
 function changePhotoPage(direction) {
@@ -708,7 +710,7 @@ document.querySelectorAll('[data-project]').forEach(button => button.addEventLis
   const link = document.createElement('a');
   link.className = 'contact-button';
   link.href = `mailto:jmanaois704@gmail.com?subject=${encodeURIComponent(`Let’s talk about ${name}`)}`;
-  link.textContent = 'get in touch ↗';
+  link.append('get in touch ', document.querySelector('.contact-button .icon').cloneNode(true));
   const details = projectDetails[name]
     ? projectDetails[name]()
     : [paragraph('The full story is coming soon. Project details, photographs, and links will be added here.')];
