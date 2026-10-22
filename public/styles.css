@@ -392,3 +392,7 @@ header > .wordmark, header > .project-back { margin-right: auto; }
   .about > h2, .about > div, .about-photo { grid-column: auto; grid-row: auto; }
   .about-photo { width: 132px; margin: 0; justify-self: start; }
 }
+/* Blog placeholder blossom: a softer tint drawn through the SVG as a mask so each theme can color it. */
+:root { --bloom-soft: #b3bad0; }
+:root[data-theme="dark"] { --bloom-soft: #8e98bb; }
+.journal-symbol.bloom-mark { opacity: 1; background: var(--bloom-soft); -webkit-mask: url("assets/blossom.svg") center / contain no-repeat; mask: url("assets/blossom.svg") center / contain no-repeat; }
