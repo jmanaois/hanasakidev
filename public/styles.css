@@ -370,3 +370,6 @@ header > .wordmark, header > .project-back { margin-right: auto; }
 }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .5s; animation-timing-function: cubic-bezier(.4,0,.2,1); }
 .theme-fading, .theme-fading *, .theme-fading *::before, .theme-fading *::after { transition: background-color .5s ease, color .5s ease, border-color .5s ease, fill .5s ease !important; }
+/* The holowish tile stays light in both themes, so its label keeps light-theme colors. */
+.holo-type { color: #292c35; transition: color .2s; }
+.project:hover .holo-type { color: #565f7e; }
