@@ -53,15 +53,16 @@ for (const [index, [file, title, category, alt]] of photographs.entries()) {
 }
 
 let activeCollection = 'all';
+let switching = false;
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 for (const collection of ['all', 'travel', 'workspace']) {
   const button = document.createElement('button');
   button.type = 'button';
   button.textContent = `${collection} (${[...grid.children].filter(card => collection === 'all' || card.dataset.collection === collection).length})`;
   button.dataset.collection = collection;
   button.addEventListener('click', () => {
-    if (activeCollection === collection) return;
-    activeCollection = collection;
-    renderCollection();
+    if (switching || activeCollection === collection) return;
+    switchCollection(collection);
   });
   filters.append(button);
 }
@@ -73,6 +74,26 @@ function renderCollection() {
   }
   for (const button of filters.children) button.setAttribute('aria-pressed', String(button.dataset.collection === activeCollection));
   count.textContent = `${visible} photographs · ${activeCollection}`;
+}
+async function switchCollection(collection) {
+  if (reducedMotion.matches) {
+    activeCollection = collection;
+    renderCollection();
+    return;
+  }
+  switching = true;
+  grid.setAttribute('aria-busy', 'true');
+  const easing = 'cubic-bezier(.25,.1,.25,1)';
+  try {
+    await grid.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing, fill: 'forwards' }).finished;
+    activeCollection = collection;
+    renderCollection();
+    await grid.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 320, easing }).finished;
+  } finally {
+    grid.getAnimations().forEach(animation => animation.cancel());
+    grid.removeAttribute('aria-busy');
+    switching = false;
+  }
 }
 renderCollection();
 

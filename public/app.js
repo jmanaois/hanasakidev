@@ -213,10 +213,28 @@ function changePhotoPage(direction) {
 
 async function transitionPhotos(targetPage, targetCollection, direction) {
   if (photoTransitioning) return;
-  if (reducedMotion.matches || galleryView) {
+  if (reducedMotion.matches) {
     activeCollection = targetCollection;
     photoPage = targetPage;
     showPhotoPage();
+    return;
+  }
+  if (galleryView) {
+    photoTransitioning = true;
+    photoGrid.setAttribute('aria-busy', 'true');
+    const easing = 'cubic-bezier(.25,.1,.25,1)';
+    try {
+      await photoGrid.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200, easing, fill: 'forwards' }).finished;
+      activeCollection = targetCollection;
+      photoPage = targetPage;
+      showPhotoPage();
+      await photoGrid.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 320, easing }).finished;
+    } finally {
+      photoGrid.getAnimations().forEach(animation => animation.cancel());
+      photoGrid.removeAttribute('aria-busy');
+      photoTransitioning = false;
+      showPhotoPage();
+    }
     return;
   }
 
