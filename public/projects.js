@@ -166,16 +166,16 @@ function holowishDemos(files) {
     ['card-filter.gif', 'filter cards', 'Holowish app demo filtering cards in the catalogue.'],
     ['change-outfit.gif', 'choose an outfit', 'Holowish app demo changing the featured talent outfit.'],
     ['change-theme.gif', 'switch themes', 'Holowish app demo changing the Oshi Hub theme.'],
-    ['collection-value.webp', 'value history', 'Holowish home screen showing collection purchase value history and the most valuable cards.'],
-    ['wishlist.webp', 'wishlist', 'Holowish wishlist showing a grid of saved cards.'],
-    ['collection.webp', 'collection', 'Holowish collection showing value history and a grid of owned cards.']
-  ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt]) => {
+    ['collection-value.webp', 'value history', 'Holowish home screen showing collection purchase value history and the most valuable cards.', 255, 519],
+    ['wishlist.webp', 'wishlist', 'Holowish wishlist showing a grid of saved cards.', 246, 500],
+    ['collection.webp', 'collection', 'Holowish collection showing value history and a grid of owned cards.', 247, 502]
+  ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt, width = 300, height = 652]) => {
     const figure = document.createElement('figure');
     const image = document.createElement('img');
     image.src = `/assets/holowish/${file}`;
     image.alt = alt;
-    image.width = 300;
-    image.height = 652;
+    image.width = width;
+    image.height = height;
     image.loading = 'lazy';
     const label = document.createElement('figcaption');
     label.textContent = caption;
