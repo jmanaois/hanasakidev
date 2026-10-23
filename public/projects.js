@@ -208,47 +208,83 @@ function holowishDemos(files) {
 }
 
 function kotoDetails() {
-  const sections = [
+  const chatSections = [
     ['chat like you text a friend', [
       'こと replies in casual Japanese, usually a few short sentences, and keeps the conversation going with a question.',
       'Grammar and vocabulary stay around JLPT N4 to N3, with at most one or two new casual words per reply, shown as chips under the message.',
-      'Furigana appear over kanji automatically, and chat history is saved on device.'
-    ], ['chat-furigana']],
+      'Furigana appear over kanji automatically, using the everyday reading checked against the dictionary, and chat history is saved on device.'
+    ], ['chat']],
+    ['pick who you are talking to', [
+      'Tap the chat title to switch between a close friend, a senpai at work, a group chat, or Discord- and X-style internet slang.',
+      'Each mode has its own persona and conversation, and its own idea of the right politeness: with a senpai, too-casual タメ口 gets flagged instead.',
+      'In the group chat, ゆい, たくみ, and はるか each reply in their own bubbles.'
+    ], ['conversation-modes', 'mode-menu', 'group-chat']],
+    ['from textbook to real life', [
+      'In ドリル mode, こと先生 gives one polite, Genki-style textbook sentence at a time, and you rewrite it the way you would text a friend.',
+      'Each reply comes with a verdict, a natural casual version, a short note on the key change, and the next sentence, built from your due words and weak spots.'
+    ], ['drill-mode']],
     ['corrections without the nitpicking', [
       'Each message you send is checked for grammar, naturalness, and register, with up to three fixes, most important first.',
       'Open a fix to see what you wrote, a natural casual rewrite, and a short explanation in English.',
-      'Sounding too polite counts too: です and ます get a gentle nudge toward how friends actually talk.'
-    ], ['chat-with-correction', 'grammar-correction']],
-    ['tap any word', [
-      'Tap a word in any message to look it up in a bundled JMdict dictionary, with its reading, part of speech, and meanings.',
-      'Add it to my words, along with the sentence it came from.'
-    ], ['tap-word-lookup-and-save', 'word-lookup']],
-    ['review what you save', [
-      'My words lists every saved word and when it is next due.',
-      'Flashcard reviews are scheduled with the FSRS spaced-repetition algorithm, tuned for 95% retention.',
-      'The back of each card shows the chat sentence the word was saved from, with its translation when one is available, because words stick better with context.',
-      'こと works the words you are reviewing into the conversation, and using one correctly in a reply counts as a review.'
-    ], ['spaced-repetition-review', 'my-words-deck', 'review-fsrs']],
-    ['translate and break it down', [
+      'Choose how strict corrections are: gentle for only real mistakes, balanced, or strict, which flags every stray です and ます with a friend.',
+      'Every correction is tagged with its grammar point and logged in a mistakes list, most frequent first, and こと looks for chances to practice your weak spots.'
+    ], ['grammar-correction', 'settings']],
+    ['grammar in every reply', [
+      'こと can point out one grammar pattern per reply, like 〜ちゃう or 〜じゃん, shown as a purple chip under the message.',
+      'Open it for the meaning, the textbook form it comes from, notes, and examples, then add it to my grammar.'
+    ], ['grammar-chip-save', 'grammar-chip']],
+    ['tap or highlight any word', [
+      'Tap a word, or hold and drag across a phrase to highlight it, and look it up in a bundled JMdict dictionary.',
+      'Listen to or copy the highlighted text, and add the word to my words along with the sentence it came from.'
+    ], ['highlight-translate-breakdown', 'highlight-lookup']],
+    ['translate and see the structure', [
       'Tap Translate under any of こと’s messages for an English translation.',
+      'The structure view splits the sentence into color-coded parts, like topic, object, verb, and ending, with a legend.',
       'A phrase-by-phrase breakdown explains each piece, from conjugations to the tone a casual ending adds.'
-    ], ['translate-and-breakdown', 'translation', 'phrase-breakdown']]
+    ], ['translation-structure', 'breakdown']],
+    ['hear it out loud', [
+      'Tap the speaker under any of こと’s messages, on word lookups, or on flashcards, using the iPhone’s built-in Japanese voice. It is free and works offline.',
+      'Words are read from their kana, so the voice never picks the wrong kanji reading, and slower speech is on by default.'
+    ], ['furigana-and-pronunciation', 'message-speaking']]
   ];
-  const nextSections = [
-    ['conversation modes', ['Chat with a close friend, an older classmate (先輩, a little more polite), a group chat, or someone using Discord- and X-style internet slang.', 'Together they cover more of the gap between textbook Japanese and real life.'], []],
-    ['correction and furigana settings', ['Choose how strict corrections are, for example always flagging です and ます.', 'Turn furigana on or off.'], []],
-    ['furigana that fades out', ['Hide readings on words you already know well from your deck, so you gradually practice reading kanji on your own.'], []],
-    ['pronunciation', ['A speaker button on messages and flashcards, using the iPhone’s built-in Japanese voice. It is free and works offline.'], []]
+  const reviewSections = [
+    ['words and grammar decks', [
+      'My words has tabs for words, grammar, and mistakes, each showing when it is next due.',
+      'Reviews are scheduled with the FSRS spaced-repetition algorithm, tuned for 95% retention.',
+      'The back of each word card shows the chat sentence it was saved from, with the word highlighted, even when conjugated.',
+      'こと works due words and grammar into the conversation, and using one correctly in a reply counts as a review.'
+    ], ['grammar-deck-and-review', 'grammar-deck', 'grammar-review-card']],
+    ['furigana that fades out', [
+      'Once you know a word well, about four or five good reviews in a row, its reading disappears in chat, translations, and flashcards, conjugated forms included.',
+      'You gradually practice reading kanji on your own, and furigana can be turned off entirely in settings.'
+    ], ['furigana-off']]
+  ];
+  const learnSections = [
+    ['a course in textbook order', [
+      'A separate Learn tab covers N5 grammar in 5 units and 28 grammar points, in Genki order from は and です through the て-form.',
+      'Each lesson starts with an explainer card and example sentences, then exercises: fill in the blank, build the sentence from tiles, and type the Japanese.',
+      'Built sentences show their color-coded structure. Typed answers in kanji or kana are checked on device when they match, and by こと when they do not.'
+    ], ['learn-daily-lesson', 'lesson-detail', 'fill-blank', 'build-sentence', 'typed-answer']],
+    ['a daily lesson', [
+      'Each day starts with due course grammar, then up to two weak spots from the mistakes list, then two new lessons.',
+      'Wrong answers come back at the end and are logged as mistakes, and finished lessons join the grammar deck.',
+      'Keep a streak, learn one more lesson when you want, and set an optional daily reminder that is skipped once the day’s lesson is done.'
+    ], ['learn-overview', 'try-again', 'session-summary']],
+    ['test out of what you know', [
+      'Each unit has a test out option that skips the lessons you already get fully right.'
+    ], ['learn-lesson-detail-and-test-out', 'course-path']]
   ];
   return [
-    paragraph('An iOS app built in Swift for practicing casual Japanese by chatting with こと, a bot that texts like a friend your age.'),
+    paragraph('An iOS app built in Swift for learning casual Japanese by chatting with こと, a bot that texts like a friend your age, with a daily grammar course alongside.'),
     paragraph('I want to be conversational in Japanese without sounding like all I know is textbook Japanese. With more friends in Japan to connect with, now is a great time to lock in on learning the language.'),
     paragraph('こと is made for learners around JLPT N4 reaching toward N3 who want to get comfortable with the Japanese people actually speak and send.'),
     subheading('learn by chatting'),
-    caseStudyFeatures(sections, kotoMedia),
-    subheading('what’s next'),
-    caseStudyFeatures(nextSections, kotoMedia, sections.length + 1),
-    paragraph('Built for iPhone with SwiftUI and SwiftData. Replies, corrections, and translations come from Claude (Haiku 5.5) as structured output. Dictionary: JMdict by EDRDG, CC BY-SA 4.0.')
+    caseStudyFeatures(chatSections, kotoMedia),
+    subheading('review what you save'),
+    caseStudyFeatures(reviewSections, kotoMedia, chatSections.length + 1),
+    subheading('a daily grammar course'),
+    caseStudyFeatures(learnSections, kotoMedia, chatSections.length + reviewSections.length + 1),
+    paragraph('Built for iPhone with SwiftUI and SwiftData. Replies, corrections, translations, and answer checks come from Claude (Haiku 5.5) as structured output. Backups export words, grammar, mistakes, chats, and course progress to a file and merge them back in. Dictionary: JMdict by EDRDG, CC BY-SA 4.0.')
   ];
 }
 
@@ -257,17 +293,35 @@ function kotoMedia(files) {
   gallery.className = 'project-gallery koto-gallery';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   [
-    ['chat-furigana', 'casual replies with furigana, new-word chips, and a translate button.', 'こと chat showing casual Japanese replies with furigana over kanji, a めっちゃ vocabulary chip, and a reviewed めっちゃ badge.'],
-    ['chat-with-correction', 'send a message, then open the fix.', 'Screen recording of sending a Japanese message to こと and opening a grammar correction.', true],
+    ['chat', 'casual replies with furigana, word and grammar chips, translate, and listen.', 'こと chat about action movies with furigana over kanji, vocabulary and grammar chips, and a reviewed 〜じゃん badge.'],
+    ['conversation-modes', 'switch modes and pick up a different conversation.', 'Screen recording of switching between こと conversation modes.', true],
+    ['mode-menu', 'five modes, each with its own chat.', 'こと mode menu listing close friend, senpai at work, group chat, Discord / X, and the Genki to real life drill, plus Clear this chat.'],
+    ['group-chat', 'a group chat with three friends.', 'こと group chat where ゆい, たくみ, and はるか welcome you in separate bubbles.'],
+    ['drill-mode', 'rewrite a textbook sentence, then get the next one.', 'こと先生 in drill mode marking a rewritten sentence almost right, with the natural casual version, an explanation, and the next sentence.'],
     ['grammar-correction', 'a grammar fix, with a natural rewrite and the reason.', 'こと grammar correction suggesting 見に行った instead of 見る, with an English explanation.'],
-    ['tap-word-lookup-and-save', 'tap a word, then add it to my words.', 'Screen recording of tapping a word in a こと message, viewing its dictionary entry, and adding it to my words.', true],
-    ['word-lookup', 'the dictionary entry for 息抜き.', 'こと word lookup sheet for 息抜き (いきぬき) with its parts of speech and meanings, and an Add to my words button.'],
-    ['spaced-repetition-review', 'a review session from start to finish.', 'Screen recording of reviewing a saved word flashcard and grading it.', true],
-    ['my-words-deck', 'saved words and when each is due.', 'こと my words list with a review button showing one due card and five saved words with due times.'],
-    ['review-fsrs', 'grade each card, with the next interval shown.', 'こと review flashcard for 息抜き with Again, Hard, Good, and Easy buttons showing their next intervals.'],
-    ['translate-and-breakdown', 'translate a message and scroll the breakdown.', 'Screen recording of translating a こと message and scrolling through its phrase-by-phrase breakdown.', true],
-    ['translation', 'the english translation, then the breakdown.', 'こと translation sheet showing a Japanese message, its English translation, and the start of the breakdown.'],
-    ['phrase-breakdown', 'each phrase, explained.', 'こと breakdown of a message phrase by phrase, explaining 昨日映画見に行ったんだ, いいな〜, and 息抜き.']
+    ['settings', 'correction strictness, furigana, and speech settings.', 'こと settings with gentle, balanced, and strict corrections, furigana toggles, and slower speech.'],
+    ['grammar-chip-save', 'open a grammar chip and add it to my grammar.', 'Screen recording of opening a grammar chip in こと and adding the pattern to the grammar deck.', true],
+    ['grammar-chip', 'the 〜ちゃう pattern, with examples.', 'こと grammar sheet for 〜ちゃう, the casual form of 〜てしまう, with a meaning, notes, examples, and an Add to my grammar button.'],
+    ['highlight-translate-breakdown', 'highlight a phrase, then translate the message.', 'Screen recording of highlighting words in a こと message, looking them up, and opening the translation and breakdown.', true],
+    ['highlight-lookup', 'a highlighted phrase and its dictionary entry.', 'こと lookup sheet for a highlighted phrase, 絶対ハマっちゃいそう, with listen and copy buttons and the dictionary entry for 絶対.'],
+    ['translation-structure', 'the translation and color-coded structure.', 'こと translation sheet showing a message, its English translation, and the sentence split into color-coded parts.'],
+    ['breakdown', 'the legend, then each phrase explained.', 'こと structure legend and a phrase-by-phrase breakdown of a casual message.'],
+    ['furigana-and-pronunciation', 'furigana settings and pronunciation in action.', 'Screen recording of turning furigana settings on and off in こと and playing messages aloud.', true],
+    ['message-speaking', 'a message being read aloud.', 'こと chat with a message being read aloud, its speaker button showing a stop control.'],
+    ['grammar-deck-and-review', 'the grammar deck, then a review.', 'Screen recording of opening the こと grammar deck and reviewing a grammar card.', true],
+    ['grammar-deck', 'saved grammar and when each is due.', 'こと grammar tab listing saved patterns such as 〜ちゃう, 〜じゃないです, and 〜じゃん with due times.'],
+    ['grammar-review-card', 'a grammar card, with the chat sentence it came from.', 'こと review card for 〜ちゃう with its meaning, notes, and the chat sentence it was saved from, plus Again, Hard, Good, and Easy buttons.'],
+    ['furigana-off', 'the same chat with furigana turned off.', 'こと chat with furigana turned off, so kanji appear without readings.'],
+    ['learn-daily-lesson', 'a daily lesson from start to finish.', 'Screen recording of a daily lesson in the こと Learn tab.', true],
+    ['lesson-detail', 'the explainer for 〜で.', 'こと lesson for 〜で explaining how to use it, with example sentences and a Learn this lesson button.'],
+    ['fill-blank', 'fill in the blank.', 'こと fill in the blank exercise answered correctly with この.'],
+    ['build-sentence', 'build the sentence from tiles.', 'こと build the sentence exercise for “How much is this watch?” with この, 時計, は, いくら, です, and か placed in order.'],
+    ['typed-answer', 'type the japanese.', 'こと exercise asking you to say “What is this?” in Japanese, with これはなんですか typed in.'],
+    ['learn-overview', 'the day’s progress and course units.', 'こと Learn tab showing a one-day streak, today’s lesson done, and unit 1 progress.'],
+    ['try-again', 'missed questions come back at the end.', 'こと fill in the blank exercise marked try again.'],
+    ['session-summary', 'a summary, with new grammar added to the deck.', 'こと lesson summary reading お疲れさま, 4 of 5 right on the first try, with これ／この added to the grammar deck.'],
+    ['learn-lesson-detail-and-test-out', 'open a lesson, then test out of a unit.', 'Screen recording of opening a こと lesson and testing out of a unit.', true],
+    ['course-path', 'units, lessons, and the test out option.', 'こと course path showing unit 1 lessons, some tested out, and unit 2 with a test out option.']
   ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt, isVideo]) => {
     const figure = document.createElement('figure');
     let media;
