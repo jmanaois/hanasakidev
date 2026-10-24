@@ -261,10 +261,24 @@ function kotoDetails() {
   ];
   const learnSections = [
     ['a course in textbook order', [
-      'A separate Learn tab covers N5 grammar in 5 units and 28 grammar points, in Genki order from は and です through the て-form.',
+      'A separate Learn tab covers 106 lessons in 17 units, starting with N5 grammar in Genki order from は and です through the て-form.',
       'Each lesson starts with an explainer card and example sentences, then exercises: fill in the blank, build the sentence from tiles, and type the Japanese.',
       'Built sentences show their color-coded structure. Typed answers in kanji or kana are checked on device when they match, and by こと when they do not.'
     ], ['learn-daily-lesson', 'lesson-detail', 'fill-blank', 'build-sentence', 'typed-answer']],
+    ['conjugate any verb', [
+      'A verb conjugation unit covers the ない and た forms, potential, volitional, ば, imperative, passive, causative, and causative-passive, then mixes them.',
+      'Type the conjugated verb in kanji or kana. Answers are checked on your phone, with no connection needed.',
+      'Right or wrong, you see the answer and the rule behind it, like 泳ぐ is an う-verb, so ぐ becomes げる.'
+    ], ['conjugation-lesson', 'potential-lesson', 'conjugation-wrong']],
+    ['a conjugation drill', [
+      'The conjugation drill quizzes random verbs on the forms you pick, from ます through causative-passive, for as many questions as you want.',
+      'Turn on chaining to stack a potential, passive, or causative form with an ending, like 働く to 働かれなかった, with each step explained.'
+    ], ['conjugation-drill', 'drill-chaining', 'chained-explanation']],
+    ['onward to N4 and N3', [
+      '66 harder lessons continue through N4 (units 7 to 13) and N3 (units 14 to 17), from 〜てしまう and 〜たら to 〜はずだ and っけ.',
+      'Units are grouped by JLPT level, each with its progress, and fold open to show their lessons. The unit with your next lesson starts open.',
+      'Harder exercises bring four-choice picks with near misses, longer multi-clause sentences to build, and longer translations.'
+    ], ['n4-n3-lesson-plans', 'n3-units', 'hazuda-lesson', 'near-miss', 'multi-clause-build']],
     ['a daily lesson', [
       'Each day starts with due course grammar, then up to two weak spots from the mistakes list, then two new lessons.',
       'Wrong answers come back at the end and are logged as mistakes, and finished lessons join the grammar deck.',
@@ -274,6 +288,13 @@ function kotoDetails() {
       'Each unit has a test out option that skips the lessons you already get fully right.'
     ], ['learn-lesson-detail-and-test-out', 'course-path']]
   ];
+  const themeSections = [
+    ['four color themes', [
+      'Pick Classic, Blue-grey, Lavender, or Salmon pink in settings to recolor the chat background, message bubbles, the こと avatar, and the app accent.',
+      'Right and wrong answers keep the same green and red in every theme.'
+    ], ['theme-colors', 'theme-bluegrey-chat', 'theme-lavender-learn', 'theme-salmon-settings']]
+  ];
+  const learnStart = chatSections.length + reviewSections.length + 1;
   return [
     paragraph('An iOS app built in Swift for learning casual Japanese by chatting with こと, a bot that texts like a friend your age, with a daily grammar course alongside.'),
     paragraph('I want to be conversational in Japanese without sounding like all I know is textbook Japanese. With more friends in Japan to connect with, now is a great time to lock in on learning the language.'),
@@ -283,8 +304,10 @@ function kotoDetails() {
     subheading('review what you save'),
     caseStudyFeatures(reviewSections, kotoMedia, chatSections.length + 1),
     subheading('a daily grammar course'),
-    caseStudyFeatures(learnSections, kotoMedia, chatSections.length + reviewSections.length + 1),
-    paragraph('Built for iPhone with SwiftUI and SwiftData. Replies, corrections, translations, and answer checks come from Claude (Haiku 5.5) as structured output. Backups export words, grammar, mistakes, chats, and course progress to a file and merge them back in. Dictionary: JMdict by EDRDG, CC BY-SA 4.0.')
+    caseStudyFeatures(learnSections, kotoMedia, learnStart),
+    subheading('make it yours'),
+    caseStudyFeatures(themeSections, kotoMedia, learnStart + learnSections.length),
+    paragraph('Built for iPhone with SwiftUI and SwiftData. Replies, corrections, translations, and answer checks come from Claude (Haiku 5.5) as structured output, while conjugations are checked by an on-device conjugation engine. Backups export words, grammar, mistakes, chats, and course progress to a file and merge them back in. Dictionary: JMdict by EDRDG, CC BY-SA 4.0.')
   ];
 }
 
@@ -317,11 +340,26 @@ function kotoMedia(files) {
     ['fill-blank', 'fill in the blank.', 'こと fill in the blank exercise answered correctly with この.'],
     ['build-sentence', 'build the sentence from tiles.', 'こと build the sentence exercise for “How much is this watch?” with この, 時計, は, いくら, です, and か placed in order.'],
     ['typed-answer', 'type the japanese.', 'こと exercise asking you to say “What is this?” in Japanese, with これはなんですか typed in.'],
-    ['learn-overview', 'the day’s progress and course units.', 'こと Learn tab showing a one-day streak, today’s lesson done, and unit 1 progress.'],
+    ['conjugation-lesson', 'a conjugation lesson, then a right and a wrong answer.', 'Screen recording of opening the こと verb conjugation unit, reading the potential form lesson, and typing one right and one wrong answer.', true],
+    ['potential-lesson', 'the potential form, with how to make it.', 'こと lesson for the potential form explaining how to make it for る-verbs, う-verbs, する, and 来る, with example sentences.'],
+    ['conjugation-wrong', 'a wrong answer, with the rule explained.', 'こと conjugation exercise marked not quite for 泳げられる, showing the correct 泳げる and the rule that ぐ becomes げる.'],
+    ['conjugation-drill', 'pick forms, turn on chaining, then drill.', 'Screen recording of choosing forms in the こと conjugation drill, turning on chaining, and answering a normal and a chained question.', true],
+    ['drill-chaining', 'choose forms, chaining, and how many questions.', 'こと conjugation drill settings with N4 forms toggled, chain forms turned on, and 15 questions.'],
+    ['chained-explanation', 'a chained form, explained step by step.', 'こと chained conjugation of 働く through passive and past negative, answered 働かれなかった and marked correct with each step explained.'],
+    ['n4-n3-lesson-plans', 'scroll the levels, then open a unit and a lesson.', 'Screen recording of scrolling through the こと N5, N4, and N3 units, opening unit 10, and answering a 〜てしまう question.', true],
+    ['n3-units', 'N4 and N3 units, each with its progress.', 'こと Learn tab showing N4 units 11 to 13 and N3 units 14 to 17 with their grammar and progress.'],
+    ['hazuda-lesson', 'the explainer for 〜はずだ.', 'こと lesson for 〜はずだ explaining how to make it and how it differs from べきだ and でしょう, with example sentences.'],
+    ['near-miss', 'a near miss in a four-choice question.', 'こと fill in the blank marked not quite after choosing べきだった over はずだった.'],
+    ['multi-clause-build', 'a longer sentence, built and color-coded.', 'こと build the sentence exercise for “I put it in there this morning, so the key should be in the drawer,” marked correct with its color-coded structure.'],
+    ['learn-overview', 'the day’s lesson, the drill, and units by level.', 'こと Learn tab showing the streak, Start today’s lesson, the conjugation drill, and N5 units folded up.'],
     ['try-again', 'missed questions come back at the end.', 'こと fill in the blank exercise marked try again.'],
     ['session-summary', 'a summary, with new grammar added to the deck.', 'こと lesson summary reading お疲れさま, 4 of 5 right on the first try, with これ／この added to the grammar deck.'],
     ['learn-lesson-detail-and-test-out', 'open a lesson, then test out of a unit.', 'Screen recording of opening a こと lesson and testing out of a unit.', true],
-    ['course-path', 'units, lessons, and the test out option.', 'こと course path showing unit 1 lessons, some tested out, and unit 2 with a test out option.']
+    ['course-path', 'an open unit, with the test out option.', 'こと Learn tab with N3 unit 14 open, listing lessons from 〜ために to 〜ばかり and an Already know this? Test out option.'],
+    ['theme-colors', 'switch themes in settings.', 'Screen recording of switching between the four こと color themes in settings, then viewing the Chat and Learn tabs.', true],
+    ['theme-bluegrey-chat', 'chat in blue-grey.', 'こと chat in the blue-grey theme, with a blue-grey avatar and accent.'],
+    ['theme-lavender-learn', 'the Learn tab in lavender.', 'こと Learn tab in the lavender theme, with a lavender Start today’s lesson button.'],
+    ['theme-salmon-settings', 'the theme picker, set to salmon pink.', 'こと settings with Salmon pink checked in the theme picker and salmon pink toggles.']
   ].filter(([file]) => files.includes(file)).forEach(([file, caption, alt, isVideo]) => {
     const figure = document.createElement('figure');
     let media;
